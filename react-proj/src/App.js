@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
@@ -22,6 +22,37 @@ const ResourcesPage = () => (
   </div>
 );
 
+// Component for Chat Page
+const ChatPage = () => {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+
+  const sendMessage = () => {
+    if (input.trim() !== '') {
+      setMessages([...messages, input]);
+      setInput('');
+    }
+  };
+
+  return (
+    <div className="screen">
+      <h3>Chat</h3>
+      <div className="chat-box">
+        {messages.map((msg, index) => (
+          <p key={index} className="chat-message">{msg}</p>
+        ))}
+      </div>
+      <input 
+        type="text" 
+        value={input} 
+        onChange={(e) => setInput(e.target.value)} 
+        placeholder="Type a message..." 
+      />
+      <button onClick={sendMessage}>Send</button>
+    </div>
+  );
+};
+
 const App = () => {
   return (
   <Router>
@@ -31,6 +62,7 @@ const App = () => {
             <nav>
               <Link to="/" className="nav-link">Welcome</Link>
               <Link to="/resources" className="nav-link">Resources</Link>
+              <Link to="/chat" className="nav-link">ChatBox</Link>
             </nav>
           </header>
 
@@ -38,6 +70,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<WelcomeScreen />} />
               <Route path="/resources" element={<ResourcesPage />} />
+              <Route path="/chat" element={<ChatPage />} />
             </Routes>
           </main>
         </div>
