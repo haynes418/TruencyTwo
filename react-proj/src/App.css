@@ -1,0 +1,44 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.nav-link {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  background-color: #61dafb;
+  border-radius: 5px;
+}
+
+.nav-link:hover {
+  background-color: #21a1f1;
+}
+
+.screen {
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin: 10px 0;
+}
+
+ul li a {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+ul li a:hover {
+  text-decoration: underline;
+}
