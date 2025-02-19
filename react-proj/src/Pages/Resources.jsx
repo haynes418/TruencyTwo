@@ -4,24 +4,6 @@ import { Collapse } from "antd";
 
 function ResourcePage() {
 
-    const childCareColumns = [
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'Phone Number',
-            dataIndex: 'phoneNumber',
-            key: 'phoneNumber',
-        },
-        {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-        },
-    ];
-
     const columns = [
         {
             title: 'Name',
@@ -821,7 +803,7 @@ function ResourcePage() {
         {
             key: '1',
             label: 'CHILD CARE',
-            children: <Table dataSource={childCareDataSource} columns={childCareColumns} />,
+            children: <Table dataSource={childCareDataSource} columns={columns} />,
         },
         {
             key: '2',
