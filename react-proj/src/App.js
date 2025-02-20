@@ -54,7 +54,7 @@ const AnonymousResponse = ({ response }) => (
 );
 
 // Individual Resource Pages
-const ResourcePage = ({ title }) => (
+const ResourcePages = ({ title }) => (
   <div className="screen">
     <h3>{title}</h3>
     <p>Information and resources related to {title.toLowerCase()}.</p>
