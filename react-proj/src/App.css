@@ -54,21 +54,21 @@ body {
   transition: all 0.50s ease-in-out;
 }
 
-ul {
-  list-style-type: none;
+.button-container {
+  margin-top: 15px;
 }
 
-ul li {
-  margin: 10px 0;
+button {
+  margin: 10px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #61dafb;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-ul li a {
-  color: #61dafb;
-  text-decoration: none;
-}
-
-ul li a:hover {
-  text-decoration: underline;
+button:hover {
+  background-color: #21a1f1;
 }
 
 .ant-collapse-content {
