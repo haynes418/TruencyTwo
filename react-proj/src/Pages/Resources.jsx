@@ -3,6 +3,7 @@ import { Table } from "antd";
 import { Collapse } from "antd";
 
 function ResourcePage() {
+  
 
     const columns = [
         {
@@ -888,7 +889,6 @@ function ResourcePage() {
         <div className="screen">
             <h1>Resources</h1>
             <Collapse accordion items={items} />
-
         </div>
     );
 }

@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -14,16 +20,36 @@
   font-size: 16px;
   text-decoration: none;
   color: white;
-  background-color: #61dafb;
+  background-color: #3498db;
   border-radius: 5px;
 }
 
 .nav-link:hover {
-  background-color: #21a1f1;
+  background-color: #2952b9;
 }
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header  {
+  background-color: #3498db;
+  font-size: 16px;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #34495e; 
+  color: white;
+}
+
+.ant-table-tbody > tr > td {
+  background-color: #ecf0f1; 
+}
+
+.ant-table-row:hover {
+  background-color: #bdc3c7; 
+}
+
 
 .screen {
   margin-top: 20px;
+  transition: all 0.3s ease-in-out;
 }
 
 .button-container {
@@ -41,4 +67,17 @@ button {
 
 button:hover {
   background-color: #21a1f1;
+}
+
+
+
+.fade-enter,
+.fade-exit-done {
+    opacity: 0;
+}
+
+.fade-enter-active,
+.fade-exit-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in-out;
 }
