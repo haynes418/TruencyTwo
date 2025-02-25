@@ -31,7 +31,9 @@ body {
 .ant-collapse > .ant-collapse-item > .ant-collapse-header  {
   background-color: #3498db;
   font-size: 16px;
+  font-family: 'Roboto', sans-serif;
 }
+
 
 .ant-table-thead > tr > th {
   background-color: #34495e; 
@@ -49,7 +51,7 @@ body {
 
 .screen {
   margin-top: 20px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.50s ease-in-out;
 }
 
 ul {
@@ -69,6 +71,15 @@ ul li a:hover {
   text-decoration: underline;
 }
 
+.ant-collapse-content {
+  transition: opacity 5s ease-in-out;
+}
+.ant-collapse-content-active {
+  opacity: 3;
+}
+.ant-collapse-content-inactive {
+  opacity: 1;
+}
 
 
 .fade-enter,

@@ -19,7 +19,7 @@ const ChatPage = () => {
     <div className="screen">
       <h3>What resources are you looking for?</h3>
       <div className="button-container">
-        <button onClick={() => navigate('/childcare')}>Childcare</button>
+        <button onClick={() => navigate('/resources?title=Child Care')}>Childcare</button>
         <button onClick={() => navigate('/transportation')}>Transportation</button>
         <button onClick={() => navigate('/attendance-motivation')}>Attendance Motivation</button>
         <button onClick={() => navigate('/food-insecurity')}>Food Insecurity</button>

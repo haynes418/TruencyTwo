@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from "antd";
 import { Collapse } from "antd";
+//import { motion } from "antd";
 
-function ResourcePage() {
-  
+function ResourcePage({title}) {
+    const [activeKey, setActiveKey] = useState(null);
+    const [filteredItems, setFilteredItems] = useState([]);
 
+    const handleButtonClick = (key) => {
+        setActiveKey(key);
+        document.getElementById(key).scrollIntoView({behavior: 'smooth'});
+    }
     const columns = [
         {
             title: 'Name',
@@ -885,10 +891,19 @@ function ResourcePage() {
     ];
 
 
+    useEffect(() => {
+        if(title){
+            const filtered = items.filter(item => item.label.toLowerCase().includes(title.toLowerCase()));
+            setFilteredItems(filtered);
+        }else{
+            setFilteredItems(items);
+        }
+    }, [title]);
+
     return (
         <div className="screen">
             <h1>Resources</h1>
-            <Collapse accordion items={items} />
+            <Collapse accordion activeKey={activeKey} onChange={setActiveKey} items={filteredItems}/>
         </div>
     );
 }
