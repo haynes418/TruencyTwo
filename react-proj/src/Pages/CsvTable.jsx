@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
 import { Collapse, Table, Checkbox, Row, Col } from 'antd';
 
 const { Panel } = Collapse;
@@ -12,55 +13,83 @@ const CsvTable = ({ filePath }) => {
   const [columns, setColumns] = useState([]);
 
   useEffect(() => {
-    const fetchCsvData = async () => {
+    const fetchFileData = async () => {
       try {
         const response = await fetch(filePath);
         if (!response.ok) {
-          throw new Error(`Error fetching CSV file: ${response.statusText}`);
+          throw new Error(`Error fetching file: ${response.statusText}`);
         }
 
-        const text = await response.text();
+        const fileBlob = await response.blob();
+        const fileType = fileBlob.type;
 
-        // Parse the CSV data into JSON format
-        Papa.parse(text, {
-          complete: (result) => {
-            const groupedData = groupDataByCategory(result.data);
-            setData(groupedData);
-            setLoading(false); // Set loading to false after data is loaded
-
-            // Initialize columns
-            const allColumns = Object.keys(result.data[0]).map((key) => ({
-              title: key,
-              dataIndex: key,
-              key: key,
-              render: (text) => {
-                // Render a clickable link for the Website column
-                if (key === 'Website' && isValidUrl(text)) {
-                  return <a href={text} target="_blank" rel="noopener noreferrer">{text}</a>;
-                }
-                return text; // Render text for other columns
-              },
-            }));
-
-            setColumns(allColumns);
-
-            // Set default visibility for columns (all visible by default)
-            const initialVisibility = allColumns.reduce((acc, col) => {
-              acc[col.key] = true; // Initially all columns are visible
-              return acc;
-            }, {});
-            setColumnVisibility(initialVisibility);
-          },
-          header: true, // Assuming the first row is the header
-        });
+        if (fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+          // Handle xlsx file
+          const xlsxData = await parseXlsx(fileBlob);
+          const csvData = xlsxData; // Now we have the data as CSV format
+          processCsvData(csvData);
+        } else if (fileType === 'text/csv' || filePath.endsWith('.csv')) {
+          // Handle csv file
+          const text = await response.text();
+          processCsvData(text);
+        } else {
+          throw new Error('Unsupported file type');
+        }
       } catch (error) {
         setError(error.message);
         setLoading(false);
       }
     };
 
-    fetchCsvData();
+    // Start loading the data
+    fetchFileData();
   }, [filePath]);
+
+  // Parse the xlsx file and convert to CSV format
+  const parseXlsx = async (fileBlob) => {
+    const data = await fileBlob.arrayBuffer();
+    const workbook = XLSX.read(data, { type: 'array' });
+
+    // Assuming we are working with the first sheet
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const csv = XLSX.utils.sheet_to_csv(sheet); // Convert to CSV string
+    return csv;
+  };
+
+  // Process the CSV data using PapaParse
+  const processCsvData = (csvData) => {
+    Papa.parse(csvData, {
+      complete: (result) => {
+        const groupedData = groupDataByCategory(result.data);
+        setData(groupedData);
+        setLoading(false); // Set loading to false after data is loaded
+
+        // Initialize columns
+        const allColumns = Object.keys(result.data[0]).map((key) => ({
+          title: key,
+          dataIndex: key,
+          key: key,
+          render: (text) => {
+            // Render a clickable link for the Website column
+            if (key === 'Website' && isValidUrl(text)) {
+              return <a href={text} target="_blank" rel="noopener noreferrer">{text}</a>;
+            }
+            return text; // Render text for other columns
+          },
+        }));
+
+        setColumns(allColumns);
+
+        // Set default visibility for columns (all visible by default)
+        const initialVisibility = allColumns.reduce((acc, col) => {
+          acc[col.key] = true; // Initially all columns are visible
+          return acc;
+        }, {});
+        setColumnVisibility(initialVisibility);
+      },
+      header: true, // Assuming the first row is the header
+    });
+  };
 
   // Group data by categories
   const groupDataByCategory = (rows) => {
@@ -95,7 +124,7 @@ const CsvTable = ({ filePath }) => {
     return regex.test(url);
   };
 
-  // Toggle column visibility - Method to Update Column Visibility if Desired
+  // Toggle column visibility
   const handleColumnVisibilityChange = (columnKey) => {
     setColumnVisibility(prevState => ({
       ...prevState,

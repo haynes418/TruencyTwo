@@ -5,7 +5,7 @@ const Resource = () => {
   return (
     <div>
       <h1>Resources</h1>
-      <CsvTable filePath="ChampaignCountyResourceSheet.csv"/>
+      <CsvTable filePath="ChampaignCountyResourceSheet.xlsx"/>
     </div>
   );
 };
