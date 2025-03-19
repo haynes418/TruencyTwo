@@ -95,7 +95,7 @@ const CsvTable = ({ filePath }) => {
     return regex.test(url);
   };
 
-  // Toggle column visibility
+  // Toggle column visibility - Method to Update Column Visibility if Desired
   const handleColumnVisibilityChange = (columnKey) => {
     setColumnVisibility(prevState => ({
       ...prevState,
