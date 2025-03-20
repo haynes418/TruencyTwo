@@ -5,52 +5,111 @@ import ResourcePage from './Pages/Resources';
 
 
 const decisionTree = {
-  question: "What resources are you looking for? All responses will remain anonymous",
+  question: "Would you like to watch a Tutorial?",
   choices: {
-    "Childcare": {
-      question: "Do you need help finding daycare or babysitters?",
+    "Yes": { result: "Here is a tutorial on how to use this guide.", path: "/tutorial" },
+    "No": {
+      question: "Are you worried about your child missing school?",
       choices: {
-        "Daycare": { result: "Here are resources for daycare services.", path: "/childcare-daycare" },
-        "Babysitters": { result: "Here are resources for babysitters.", path: "/childcare-babysitters" }
+        "Yes": {
+          question: "What is/may keep your child from school?",
+          choices: {
+            "Childcare": {
+              question: "Do you need help finding daycare or babysitters?",
+              choices: {
+                "Daycare": { result: "Here are resources for daycare services.", path: "/childcare-daycare" },
+                "Babysitters": { result: "Here are resources for babysitters.", path: "/childcare-babysitters" }
+              }
+            },
+            "Transportation": {
+              question: "Do you need assistance with public transport or carpool options?",
+              choices: {
+                "Public Transport": { result: "Here are public transport resources.", path: "/transportation-public" },
+                "Carpool": { result: "Here are carpool resources.", path: "/transportation-carpool" }
+              }
+            },
+            "Attendance Motivation": {
+              question: "Do you need help with attendance goals or rewards?",
+              choices: {
+                "Goals": { result: "Here are resources for attendance goals.", path: "/attendance-goals" },
+                "Rewards": { result: "Here are resources for attendance rewards.", path: "/attendance-rewards" }
+              }
+            },
+            "Food Insecurity": {
+              question: "Do you need help with affording groceries or finding food shelters?",
+              choices: {
+                "Groceries": { result: "Here are resources for groceries.", path: "/food-groceries" },
+                "Food Shelters": { result: "Here are resources for food shelters.", path: "/food-shelters" }
+              }
+            },
+            "Housing": {
+              question: "Do you need help finding housing or paying rent?",
+              choices: {
+                "Finding Housing": { result: "Here are resources for finding housing.", path: "/housing-find" },
+                "Paying Rent": { result: "Here are resources for rent assistance.", path: "/housing-rent" }
+              }
+            },
+            "Mental Health": {
+              question: "Do you need help with finding therapy or crisis hotlines?",
+              choices: {
+                "Therapy": { result: "Here are resources for therapy.", path: "/mentalhealth-therapy" },
+                "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/crisis-hotlines" }
+              }
+            }
+          }
+        },
+        "No": {
+          question: "What kind of resources are you looking for?",
+          choices: {
+            "Childcare": {
+              question: "Do you need help finding daycare or babysitters?",
+              choices: {
+                "Daycare": { result: "Here are resources for daycare services.", path: "/childcare-daycare" },
+                "Babysitters": { result: "Here are resources for babysitters.", path: "/childcare-babysitters" }
+              }
+            },
+            "Transportation": {
+              question: "Do you need assistance with public transport or carpool options?",
+              choices: {
+                "Public Transport": { result: "Here are public transport resources.", path: "/transportation-public" },
+                "Carpool": { result: "Here are carpool resources.", path: "/transportation-carpool" }
+              }
+            },
+            "Attendance Motivation": {
+              question: "Do you need help with attendance goals or rewards?",
+              choices: {
+                "Goals": { result: "Here are resources for attendance goals.", path: "/attendance-goals" },
+                "Rewards": { result: "Here are resources for attendance rewards.", path: "/attendance-rewards" }
+              }
+            },
+            "Food Insecurity": {
+              question: "Do you need help with affording groceries or finding food shelters?",
+              choices: {
+                "Groceries": { result: "Here are resources for groceries.", path: "/food-groceries" },
+                "Food Shelters": { result: "Here are resources for food shelters.", path: "/food-shelters" }
+              }
+            },
+            "Housing": {
+              question: "Do you need help finding housing or paying rent?",
+              choices: {
+                "Finding Housing": { result: "Here are resources for finding housing.", path: "/housing-find" },
+                "Paying Rent": { result: "Here are resources for rent assistance.", path: "/housing-rent" }
+              }
+            },
+            "Mental Health": {
+              question: "Do you need help with finding therapy or crisis hotlines?",
+              choices: {
+                "Therapy": { result: "Here are resources for therapy.", path: "/mentalhealth-therapy" },
+                "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/crisis-hotlines" }
+              }
+            }
+          }
+        }
       }
-    },
-    "Transportation": {
-      question: "Do you need assistance with public transport or carpool options?",
-      choices: {
-        "Public Transport": { result: "Here are public transport resources.", path: "/transportation-public" },
-        "Carpool": { result: "Here are carpool resources.", path: "/transportation-carpool" }
-      }
-    },
-    "Attendance Motivation": {
-      question: "Do you need help with attendance goals or rewards?",
-      choices: {
-        "Goals": { result: "Here are resources for attendance goals.", path: "/attendance-goals" },
-        "Rewards": { result: "Here are resources for attendance rewards.", path: "/attendance-rewards" }
-      }
-    },
-    "Food Insecurity": {
-      question: "Do you need help with affording groceries or finding food shelters?",
-      choices: {
-        "Groceries": { result: "Here are resources for groceries.", path: "/food-groceries" },
-        "Food Shelters": { result: "Here are resources for food shelters.", path: "/food-shelters" }
-      }
-    },
-    "Housing": {
-      question: "Do you need help finding housing or paying rent?",
-      choices: {
-        "Finding Housing": { result: "Here are resources for finding housing.", path: "/housing-find" },
-        "Paying Rent": { result: "Here are resources for rent assistance.", path: "/housing-rent" }
-      }
-    },
-    "Mental Health": {
-      question: "Do you need help with finding therapy or crisis hotlines?",
-      choices: {
-        "Therapy": { result: "Here are resources for therapy.", path: "/mentalhealth-therapy" },
-        "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/crisis-hotlines" }
-      }
-    },
+    }
   }
 };
+
 
 const DecisionTreeComponent = ({ node }) => {
   const [currentNode, setCurrentNode] = useState(node);
@@ -82,6 +141,15 @@ const DecisionTreeComponent = ({ node }) => {
   );
 };
 
+const FAQPage = () => {
+  return (
+    <div className="faq-container">
+      <h2 className="faq-title">Frequently Asked Questions</h2>
+      <p className="faq-text">Here you can find answers to common questions about our resources and how to use this guide.</p>
+    </div>
+  );
+};
+
 const App = () => {
   return (
     <Router>
@@ -90,15 +158,31 @@ const App = () => {
           <h1>Virtual Resource Guide</h1>
           <p>This website serves as a Virtual Resource Guide for children facing truancy, offering tailored support for challenges. Users navigate through a decision tree to find relevant resources quickly based on their specific needs.</p>
           <nav>
-            <Link to="/" className="nav-link">Welcome</Link>
+            <Link to="/faq" className="nav-link">FAQ</Link>
+            <Link to="/" className="nav-link">Welcome Page</Link>
             <Link to="/resources" className="nav-link">Resources</Link>
             <Link to="/chat" className="nav-link">Chat</Link>
           </nav>
         </header>
 
         <main>
+        <div className="welcome-container">
+            <h2 className="welcome-message"></h2>
+          </div>
           <Routes>
-            <Route path="/" element={<h2>Welcome to the Virtual Resource Guide</h2>} />
+            <Route path="/" element={<div className="welcome-container">
+            <h2 className="welcome-message">Welcome to the Virtual Resource Guide for Urbana!</h2>
+            <img src="https://cmsv2-assets.apptegy.net/uploads/4045/file/3439722/588cee57-d079-4d12-a92f-0f46a78d2923.png" alt="urbana" className="welcome-image" />
+            <div className="attendance-section">
+              <h3 className="attendance-title">Attendance Matters</h3>
+              <p className="attendance-text">Regular school attendance is crucial for academic success. Students who attend school consistently are more likely to achieve higher grades, develop strong social skills, and create a foundation for future career opportunities. Use our website to ensure students have access to the resources they need to stay in school and succeed.</p>
+              <h4 className="website-text">How to Use This Website</h4>
+              <p className="tutorial-text">[Link to tutorial] </p>
+              <p className="tutorial-text">[Written Instructions] </p>
+            </div>
+          </div>
+          } />
+            <Route path="/faq" element={<FAQPage />} />
             <Route path="/resources" element={<ResourcePage />} />
             <Route path="/chat" element={<DecisionTreeComponent node={decisionTree} />} />
             <Route path="/childcare-daycare" element={<div>Here are resources for daycare services.</div>} />
@@ -115,6 +199,7 @@ const App = () => {
             <Route path="/crisis-hotlines" element={<div>Here are resources for crisis hotlines.</div>} />
           </Routes>
         </main>
+        
       </div>
     </Router>
   );
