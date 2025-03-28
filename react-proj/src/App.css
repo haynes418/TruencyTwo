@@ -116,11 +116,14 @@ body {
   height: auto;
   border-radius: 10px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .attendance-section {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 50px;
+  margin-bottom: 150px;
   padding: 15px;
   background-color: #f8f9fa;
   border-radius: 10px;
@@ -157,3 +160,17 @@ body {
   color: #333;
   margin-top: 10px;
 }
+
+.website-text {
+  font-size: 22px;
+  color: maroon;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.tutorial-text {
+  font-size: 18px;
+  color: #333;
+  margin: 5px 0;
+}
+
