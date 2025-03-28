@@ -1,8 +1,5 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #ffffff;
-  margin: 0;
-  padding: 0;
 }
 
 .App-header {
@@ -48,11 +45,13 @@ body {
   color: maroon;
 }
 
-.hero-section {
-  text-align: center;
-  padding: 50px;
-  background-size: cover;
-  background-position: center;
+.ant-collapse > .ant-collapse-item > .ant-collapse-header  {
+  background-color: #3498db;
+  font-size: 16px;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #34495e; 
   color: white;
 }
 
@@ -75,6 +74,7 @@ body {
 .decision-container {
   text-align: center;
   margin-top: 20px;
+  transition: all 0.50s ease-in-out;
 }
 
 .button-container {
@@ -142,11 +142,6 @@ body {
   margin-top: 10px;
 }
 
-.website-text {
-  font-size: 24px;
-  color: maroon;
-  font-weight: bold;
-}
 
 .faq-container {
   text-align: center;
@@ -178,3 +173,4 @@ body {
   color: #333;
   margin: 5px 0;
 }
+
