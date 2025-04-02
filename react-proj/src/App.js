@@ -16,43 +16,43 @@ const decisionTree = {
             "Childcare": {
               question: "Do you need help finding daycare or babysitters?",
               choices: {
-                "Daycare": { result: "Here are resources for daycare services.", path: "/childcare-daycare" },
-                "Babysitters": { result: "Here are resources for babysitters.", path: "/childcare-babysitters" }
+                "Daycare": { result: "Here are resources for daycare services.", path: "/resources?topic=childcare-daycare" },
+                "Babysitters": { result: "Here are resources for babysitters.", path: "/resources?topic=childcare-babysitters" }
               }
             },
             "Transportation": {
               question: "Do you need assistance with public transport or carpool options?",
               choices: {
-                "Public Transport": { result: "Here are public transport resources.", path: "/transportation-public" },
-                "Carpool": { result: "Here are carpool resources.", path: "/transportation-carpool" }
+                "Public Transport": { result: "Here are public transport resources.", path: "/resources?topic=transportation-public" },
+                "Carpool": { result: "Here are carpool resources.", path: "/resources?topic=transportation-carpool" }
               }
             },
             "Attendance Motivation": {
               question: "Do you need help with attendance goals or rewards?",
               choices: {
-                "Goals": { result: "Here are resources for attendance goals.", path: "/attendance-goals" },
-                "Rewards": { result: "Here are resources for attendance rewards.", path: "/attendance-rewards" }
+                "Goals": { result: "Here are resources for attendance goals.", path: "/resources?topic=attendance-goals" },
+                "Rewards": { result: "Here are resources for attendance rewards.", path: "/resources?topic=attendance-rewards" }
               }
             },
             "Food Insecurity": {
               question: "Do you need help with affording groceries or finding food shelters?",
               choices: {
-                "Groceries": { result: "Here are resources for groceries.", path: "/food-groceries" },
-                "Food Shelters": { result: "Here are resources for food shelters.", path: "/food-shelters" }
+                "Groceries": { result: "Here are resources for groceries.", path: "/resources?topic=food-groceries" },
+                "Food Shelters": { result: "Here are resources for food shelters.", path: "/resources?topic=food-shelters" }
               }
             },
             "Housing": {
               question: "Do you need help finding housing or paying rent?",
               choices: {
-                "Finding Housing": { result: "Here are resources for finding housing.", path: "/housing-find" },
-                "Paying Rent": { result: "Here are resources for rent assistance.", path: "/housing-rent" }
+                "Finding Housing": { result: "Here are resources for finding housing.", path: "/resources?topic=housing-find" },
+                "Paying Rent": { result: "Here are resources for rent assistance.", path: "/resources?topic=housing-rent" }
               }
             },
             "Mental Health": {
               question: "Do you need help with finding therapy or crisis hotlines?",
               choices: {
-                "Therapy": { result: "Here are resources for therapy.", path: "/mentalhealth-therapy" },
-                "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/crisis-hotlines" }
+                "Therapy": { result: "Here are resources for therapy.", path: "/resources?topic=mentalhealth-therapy" },
+                "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/resources?topic=crisis-hotlines" }
               }
             }
           }
@@ -66,14 +66,20 @@ const decisionTree = {
 
 
 const DecisionTreeComponent = ({ node }) => {
+  const knownTopics = ["childcare", "transportation", "attendance", "food", "housing", "mental health"];
+  
   const [currentNode, setCurrentNode] = useState(node);
   const navigate = useNavigate();
 
   const handleChoice = (choice) => {
-    if (currentNode.choices[choice].path) {
-      navigate(currentNode.choices[choice].path);
-    } else {
-      setCurrentNode(currentNode.choices[choice]);
+    const next = currentNode.choices[choice];
+    if(next.path){
+      navigate(next.path);
+    }else if (knownTopics.includes(choice.toLowerCase())) {
+      navigate(`/resources?topic=${choice.toLowerCase()}`);
+      //navigate(`/resources?topic=${encodeURIComponent(choice)}`);
+    }else{
+      setCurrentNode(next);
     }
   };
 
