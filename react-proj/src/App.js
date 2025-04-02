@@ -86,6 +86,7 @@ const DecisionTreeComponent = ({ node }) => {
   return (
     <div className="screen">
       <h3>{currentNode.question || currentNode.result}</h3>
+      <button onClick = {() => navigate(-1)} className="Back-button">Back</button>
       {currentNode.choices ? (
         <div className="button-container">
           {Object.keys(currentNode.choices).map((choice) => (
@@ -209,5 +210,6 @@ const App = () => {
     </Router>
   );
 };
+
 
 export default App;

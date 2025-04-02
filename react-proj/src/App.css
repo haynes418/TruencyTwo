@@ -173,3 +173,22 @@ body {
   color: #333;
   margin: 5px 0;
 }
+
+.Back-button {
+  display: inline-block;
+  background-color: transparent;
+  color: rgb(15, 15, 15);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Back-button:hover {
+  background-color: #0056b3;
+  color: white;
+}
