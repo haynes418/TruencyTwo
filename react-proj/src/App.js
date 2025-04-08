@@ -16,15 +16,15 @@ const decisionTree = {
             "Childcare": {
               question: "Do you need help finding daycare or babysitters?",
               choices: {
-                "Daycare": { result: "Here are resources for daycare services.", path: "/resources?topic=childcare-daycare" },
-                "Babysitters": { result: "Here are resources for babysitters.", path: "/resources?topic=childcare-babysitters" }
+                "Daycare": { result: "Here are resources for daycare services.", path: "/resources?topic=child" },
+                "Babysitters": { result: "Here are resources for babysitters.", path: "/resources?topic=child" }
               }
             },
             "Transportation": {
               question: "Do you need assistance with public transport or carpool options?",
               choices: {
-                "Public Transport": { result: "Here are public transport resources.", path: "/resources?topic=transportation-public" },
-                "Carpool": { result: "Here are carpool resources.", path: "/resources?topic=transportation-carpool" }
+                "Public Transport": { result: "Here are public transport resources.", path: "/resources?topic=transportation" },
+                "Carpool": { result: "Here are carpool resources.", path: "/resources?topic=transportation" }
               }
             },
             "Attendance Motivation": {
@@ -51,7 +51,7 @@ const decisionTree = {
             "Mental Health": {
               question: "Do you need help with finding therapy or crisis hotlines?",
               choices: {
-                "Therapy": { result: "Here are resources for therapy.", path: "/resources?topic=mentalhealth-therapy" },
+                "Therapy": { result: "Here are resources for therapy.", path: "/resources?topic=mental-health" },
                 "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/resources?topic=crisis-hotlines" }
               }
             }
@@ -66,27 +66,21 @@ const decisionTree = {
 
 
 const DecisionTreeComponent = ({ node }) => {
-  const knownTopics = ["childcare", "transportation", "attendance", "food", "housing", "mental health"];
-  
   const [currentNode, setCurrentNode] = useState(node);
   const navigate = useNavigate();
 
   const handleChoice = (choice) => {
-    const next = currentNode.choices[choice];
-    if(next.path){
-      navigate(next.path);
-    }else if (knownTopics.includes(choice.toLowerCase())) {
-      navigate(`/resources?topic=${choice.toLowerCase()}`);
-      //navigate(`/resources?topic=${encodeURIComponent(choice)}`);
-    }else{
-      setCurrentNode(next);
+    if(currentNode.choices[choice].path){
+      navigate(currentNode.choices[choice].path);
+    } else {
+      setCurrentNode(currentNode.choices[choice]);
     }
   };
 
   return (
     <div className="screen">
-      <h3>{currentNode.question || currentNode.result}</h3>
       <button onClick = {() => navigate(-1)} className="Back-button">Back</button>
+      <h3>{currentNode.question || currentNode.result}</h3>
       {currentNode.choices ? (
         <div className="button-container">
           {Object.keys(currentNode.choices).map((choice) => (

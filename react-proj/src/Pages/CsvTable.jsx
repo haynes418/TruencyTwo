@@ -5,7 +5,7 @@ import { Collapse, Table, Checkbox, Row, Col } from 'antd';
 
 const { Panel } = Collapse;
 
-const CsvTable = ({ filePath, filterTopic}) => {
+const CsvTable = ({ filePath, filterKeywords}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -79,7 +79,6 @@ const CsvTable = ({ filePath, filterTopic}) => {
         }));
 
         setColumns(allColumns);
-
         // Set default visibility for columns (all visible by default)
         const initialVisibility = allColumns.reduce((acc, col) => {
           acc[col.key] = true; // Initially all columns are visible
@@ -155,12 +154,17 @@ const CsvTable = ({ filePath, filterTopic}) => {
     return <div>No data available</div>;
   }
 
+  let filteredData = data;
+  if (filterKeywords) {
+    filteredData = data.filter(categoryGroup => {
+      return filterKeywords.some(keyword => categoryGroup.category?.toLowerCase().includes(keyword.toLowerCase()));
+    });
+  }
+
   return (
     <div>
       <Collapse accordion>
-        {(filterTopic ? data.filter(categoryGroup => categoryGroup.category?.toLowerCase().includes(filterTopic.toLowerCase()) 
-        ): data 
-        ).map((categoryGroup, index) => {
+        {filteredData.map((categoryGroup, index) => {
           // Get only the columns that have data in "Description" or "Notes"
           const filteredColumns = getColumnsForCategory(categoryGroup.data);
 
