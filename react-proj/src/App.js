@@ -8,7 +8,7 @@ import FileUpload from './Pages/FileUpload';
 
 
 const decisionTree = {
-  question: "This is gonna take less than 5 minutes, all will remain anonymous. Do you wish to proceed?",
+  question: "This is going to take less than 5 minutes, all will remain anonymous. Do you wish to proceed?",
   choices: {
     "Yes": {
       question: "Are you worried about your child missing school?",
@@ -140,8 +140,8 @@ const App = () => {
                 <Link to="/" className="nav-link">Welcome Page</Link>
                 <Link to="/faq" className="nav-link">FAQ</Link>
                 <Link to="/resources" className="nav-link">Resources</Link>
-                <Link to="/chat" className="nav-link">Chat</Link>
-                <button onClick={openLoginModal} className="nav-link">Login</button> {}
+                <Link to="/chat" className="nav-link">Resource Guide</Link>
+                <button onClick={openLoginModal} className="nav-link"> Faculty Login</button> {}
               </>
             )}
             {isAuthenticated && (
@@ -149,7 +149,7 @@ const App = () => {
                 <Link to="/" className="nav-link">Welcome Page</Link>
                 <Link to="/faq" className="nav-link">FAQ</Link>
                 <Link to="/resources" className="nav-link">Resources</Link>
-                <Link to="/chat" className="nav-link">Chat</Link>
+                <Link to="/chat" className="nav-link">Resource Guide</Link>
                 <Link to="/fileupload" className="nav-link">File Upload</Link>
                 <button onClick={() => setIsAuthenticated(false)} className="nav-link">Logout</button>
               </>
@@ -158,29 +158,57 @@ const App = () => {
         </header>
 
         <main>
-          <Routes>
-          <Route path="/" element={<div className="welcome-container">
-            <h2 className="welcome-message">Welcome to the Virtual Resource Guide for Urbana!</h2>
-            <p>This website serves as a Virtual Resource Guide for children facing truancy, offering tailored support for challenges. Users navigate through a decision tree to find relevant resources quickly based on their specific needs.</p>
-            <img src="https://cmsv2-assets.apptegy.net/uploads/4045/file/3439722/588cee57-d079-4d12-a92f-0f46a78d2923.png" alt="urbana" className="welcome-image" />
-            <div className="attendance-section">
-              <h3 className="attendance-title">Attendance Matters</h3>
-              <p className="attendance-text">Regular school attendance is crucial for academic success. Students who attend school consistently are more likely to achieve higher grades, develop strong social skills, and create a foundation for future career opportunities. Use our website to ensure students have access to the resources they need to stay in school and succeed.</p>
-              <h4 className="website-text">How to Use This Website</h4>
-              <p className="tutorial-text">1. Go to the "Chat" Button on the navigation bar.</p>
-              <p className="tutorial-text">2. Follow the prompts to answer questions about the challenges or needs your child may be facing.</p>
-              <p className="tutorial-text">3. Based on your responses, the website will provide links to relevant resources.</p>
-              <p className="tutorial-text">4. If you would like more information, visit the "Resources" or "FAQ" pages from the navigation bar.</p>
-              <p className="tutorial-text">5. If you still have questions, you can always visit the "FAQ" page for commonly asked questions or contact Urbana City Schools.</p>
+  <Routes>
+    <Route
+      path="/"
+      element={
+        <div className="welcome-container">
+          <h2 className="welcome-message">Welcome to the Virtual Resource Guide for Urbana!</h2>
+          <p className="intro-text">
+            This website serves as a Virtual Resource Guide for children facing truancy, offering tailored support for
+            challenges. Users navigate through a decision tree to find relevant resources quickly based on their specific
+            needs.
+          </p>
+          <div className="welcome-image-container">
+            <img
+              src="https://cmsv2-assets.apptegy.net/uploads/4045/file/3439722/588cee57-d079-4d12-a92f-0f46a78d2923.png"
+              alt="urbana"
+              className="welcome-image"
+            />
+          </div>
 
+          <div className="attendance-section">
+            <div className="section-card">
+              <h3 className="attendance-title">Attendance Matters</h3>
+              <p className="attendance-text">
+                Regular school attendance is crucial for academic success. Students who attend school consistently are more
+                likely to achieve higher grades, develop strong social skills, and create a foundation for future career
+                opportunities. Use our website to ensure students have access to the resources they need to stay in school and
+                succeed.
+              </p>
             </div>
-          </div>} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/resources" element={<ResourcePage />} />
-            <Route path="/chat" element={<DecisionTreeComponent node={decisionTree} />} />
-            <Route path="/fileupload" element={<FileUpload />} />
-          </Routes>
-        </main>
+          </div>
+
+          <div className="usage-section">
+            <h4 className="website-text">How to Use This Website</h4>
+            <ul className="tutorial-list">
+              <li className="tutorial-item">1. Go to the "Resource Guide" Button on the navigation bar.</li>
+              <li className="tutorial-item">2. Follow the prompts to answer questions about your child's challenges or needs.</li>
+              <li className="tutorial-item">3. Based on your responses, the website will provide links to relevant resources.</li>
+              <li className="tutorial-item">4. For more information, visit the "Resources" or "FAQ" pages from the navigation bar.</li>
+              <li className="tutorial-item">5. If you have further questions, visit the "FAQ" page for common inquiries or contact Urbana City Schools.</li>
+            </ul>
+          </div>
+        </div>
+      }
+    />
+    <Route path="/faq" element={<FAQPage />} />
+    <Route path="/resources" element={<ResourcePage />} />
+    <Route path="/chat" element={<DecisionTreeComponent node={decisionTree} />} />
+    <Route path="/fileupload" element={<FileUpload />} />
+  </Routes>
+</main>
+
 
         {/* Render the modal */}
         <LoginModal 
