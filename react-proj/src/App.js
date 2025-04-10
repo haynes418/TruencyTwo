@@ -70,20 +70,32 @@ const decisionTree = {
 
 const DecisionTreeComponent = ({ node }) => {
   const [currentNode, setCurrentNode] = useState(node);
+  const [history, setHistory] = useState([]); // Track previous nodes
   const navigate = useNavigate();
 
   const handleChoice = (choice) => {
-    if(currentNode.choices[choice].path){
+    if (currentNode.choices[choice].path) {
+      // If there's a path, navigate to it
       navigate(currentNode.choices[choice].path);
     } else {
+      // Otherwise, set the current node and save the previous node to history
+      setHistory([...history, currentNode]); 
       setCurrentNode(currentNode.choices[choice]);
+    }
+  };
+
+  const handleRecall = () => {
+    if (history.length > 0) {
+      // Pop the last node from the history and set it as the current node
+      const previousNode = history[history.length - 1];
+      setHistory(history.slice(0, -1)); // Remove the last node from history
+      setCurrentNode(previousNode);
     }
   };
 
   return (
     <div className="screen">
-      <button onClick = {() => navigate(-1)} className="Back-button">Back</button>
-      <h3>{currentNode.question || currentNode.result}</h3>
+      <h3 className="button-container">{currentNode.question || currentNode.result}</h3>
       {currentNode.choices ? (
         <div className="button-container">
           {Object.keys(currentNode.choices).map((choice) => (
@@ -91,6 +103,10 @@ const DecisionTreeComponent = ({ node }) => {
               {choice}
             </button>
           ))}
+          {/* Conditionally render the Recall button based on history */}
+          {history.length > 0 && (
+            <button onClick={handleRecall} className="Recall-button">Back</button>
+          )}
         </div>
       ) : (
         <p>{currentNode.result}</p>
