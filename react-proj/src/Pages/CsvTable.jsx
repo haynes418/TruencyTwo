@@ -12,7 +12,7 @@ const CsvTable = ({ filePath, filterKeywords}) => {
   const [error, setError] = useState(null);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columns, setColumns] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  let [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
@@ -176,7 +176,6 @@ const CsvTable = ({ filePath, filterKeywords}) => {
   if (!data.length) {
     return <div>No data available</div>;
   }
-
 
   if (filterKeywords) {
     filteredData = data.filter(categoryGroup => {
