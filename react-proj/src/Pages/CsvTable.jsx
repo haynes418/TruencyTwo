@@ -177,8 +177,11 @@ const CsvTable = ({ filePath, filterKeywords}) => {
     return <div>No data available</div>;
   }
 
+
+  let filteredData1 = data;
+
   if (filterKeywords) {
-    filteredData = data.filter(categoryGroup => {
+    filteredData1 = data.filter(categoryGroup => {
       return filterKeywords.some(keyword => categoryGroup.category?.toLowerCase().includes(keyword.toLowerCase()));
     });
   }
@@ -195,7 +198,7 @@ const CsvTable = ({ filePath, filterKeywords}) => {
       />
 
       <Collapse accordion>
-        {filteredData.map((categoryGroup, index) => {
+        {filteredData1.map((categoryGroup, index) => {
           // Get only the columns that have data in "Description" or "Notes"
           const filteredColumns = getColumnsForCategory(categoryGroup.data);
 
