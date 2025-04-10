@@ -149,7 +149,7 @@ const App = () => {
                 <Link to="/" className="nav-link">Welcome Page</Link>
                 <Link to="/faq" className="nav-link">FAQ</Link>
                 <Link to="/resources" className="nav-link">Resources</Link>
-                <Link to="/chat" className="nav-link">Chat</Link>
+                <Link to="/chat" className="nav-link">Resource Guide</Link>
                 <Link to="/fileupload" className="nav-link">File Upload</Link>
                 <button onClick={() => setIsAuthenticated(false)} className="nav-link">Logout</button>
               </>
