@@ -157,6 +157,14 @@ const App = () => {
             <Link to="/resources" className="nav-link">Resources</Link>
             <Link to="/chat" className="nav-link">Chat</Link>
           </nav>
+
+          <Router>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+          </Router>
+  
         </header>
 
         <main>
