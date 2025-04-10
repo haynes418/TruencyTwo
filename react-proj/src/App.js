@@ -162,6 +162,7 @@ const App = () => {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/resources" element={<ResourcePage />} />
             <Route path="/chat" element={<DecisionTreeComponent node={decisionTree} />} />
+            <Route path="/fileupload" element={<FileUpload />} />
           </Routes>
         </main>
 
