@@ -63,6 +63,7 @@ body {
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header  {
   background-color: maroon;
+  opacity: 0.8;
   color: white;
   font-size: 16px;
 }
@@ -236,5 +237,4 @@ body {
     font-size: 20px;
     text-align: center;
   }
-
 }

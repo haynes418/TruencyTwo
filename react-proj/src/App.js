@@ -170,7 +170,6 @@ const App = () => {
     <Router>
       <div className="App">
         <header className="App-header">
-          <h1>Virtual Resource Guide</h1>
           <nav>
             {!isAuthenticated && (
               <>
