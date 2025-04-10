@@ -6,7 +6,7 @@ import { Collapse, Table, Checkbox, Row, Col, Input } from 'antd';
 const { Panel } = Collapse;
 const { Search } = Input;
 
-const CsvTable = ({ filePath }) => {
+const CsvTable = ({ filePath, filterKeywords}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -83,7 +83,6 @@ const CsvTable = ({ filePath }) => {
         }));
 
         setColumns(allColumns);
-
         // Set default visibility for columns (all visible by default)
         const initialVisibility = allColumns.reduce((acc, col) => {
           acc[col.key] = true; // Initially all columns are visible
@@ -176,6 +175,13 @@ const CsvTable = ({ filePath }) => {
 
   if (!data.length) {
     return <div>No data available</div>;
+  }
+
+  let filteredData = data;
+  if (filterKeywords) {
+    filteredData = data.filter(categoryGroup => {
+      return filterKeywords.some(keyword => categoryGroup.category?.toLowerCase().includes(keyword.toLowerCase()));
+    });
   }
 
   return (
