@@ -216,26 +216,27 @@ body {
   background-color: #0056b3;
   color: white;
 
-@media (max-width: 768px) {
-  .nav-bar {
-    padding: 10px;
-  }
+  @media (max-width: 768px) {
+    .nav-bar {
+      padding: 10px;
+    }
 
-  .nav-links {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
+    .nav-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
 
-  .nav-link {
-    width: 90%;
-    max-width: 300px;
-    font-size: 14px;
-    padding: 10px;
-  }
+    .nav-link {
+      width: 90%;
+      max-width: 300px;
+      font-size: 14px;
+      padding: 10px;
+    }
 
-  .site-title {
-    font-size: 20px;
-    text-align: center;
+    .site-title {
+      font-size: 20px;
+      text-align: center;
+    }
   }
 }
