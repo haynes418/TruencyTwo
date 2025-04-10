@@ -140,8 +140,8 @@ const App = () => {
                 <Link to="/" className="nav-link">Welcome Page</Link>
                 <Link to="/faq" className="nav-link">FAQ</Link>
                 <Link to="/resources" className="nav-link">Resources</Link>
-                <Link to="/chat" className="nav-link">Chat</Link>
-                <button onClick={openLoginModal} className="nav-link">Login</button> {}
+                <Link to="/chat" className="nav-link">Resource Guide</Link>
+                <button onClick={openLoginModal} className="nav-link"> Faculty Login</button> {}
               </>
             )}
             {isAuthenticated && (
