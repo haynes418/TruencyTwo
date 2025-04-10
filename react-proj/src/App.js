@@ -8,7 +8,7 @@ import FileUpload from './Pages/FileUpload';
 
 
 const decisionTree = {
-  question: "This is gonna take less than 5 minutes, all will remain anonymous. Do you wish to proceed?",
+  question: "This is going to take less than 5 minutes, all will remain anonymous. Do you wish to proceed?",
   choices: {
     "Yes": {
       question: "Are you worried about your child missing school?",
