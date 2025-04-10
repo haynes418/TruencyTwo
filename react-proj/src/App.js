@@ -138,7 +138,14 @@ const FAQPage = () => {
       <div className="faq-item">
         <h3 className="faq-question">6. Who can I contact if I need more assistance?</h3>
         <p className="faq-answer">
-          If you need further assistance or cannot find the support you're looking for, we recommend contacting Urbana City Schools.
+          If you need further assistance or cannot find the support you're looking for, we recommend contacting your child's school.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h3 className="faq-question">7. What is mediation?</h3>
+        <p className="faq-answer">
+        Truancy mediation is a process where a neutral mediator facilitates a discussion between a student, their parents, and school staff to address attendance issues and collaboratively develop solutions to improve school attendance.
         </p>
       </div>
     </div>
