@@ -95,10 +95,28 @@ body {
   transition: all 0.50s ease-in-out;
 }
 
-.button-container {
+.button-container{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 8px;
+}
+
+.button-container button{
+  background-color: transparent;
+  color: rgb(15, 15, 15);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.button-container button:hover {
+  background-color: #0056b3;
+  color: white;
 }
 
 .decision-button {
@@ -215,26 +233,27 @@ body {
   color: white;
 }
 
-@media (max-width: 768px) {
-  .nav-bar {
-    padding: 10px;
+  @media (max-width: 768px) {
+    .nav-bar {
+      padding: 10px;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-link {
+      width: 90%;
+      max-width: 300px;
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .site-title {
+      font-size: 20px;
+      text-align: center;
+    }
   }
 
-  .nav-links {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .nav-link {
-    width: 90%;
-    max-width: 300px;
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .site-title {
-    font-size: 20px;
-    text-align: center;
-  }
-}
