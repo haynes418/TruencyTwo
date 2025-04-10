@@ -14,7 +14,6 @@ const Resource = () => {
   return (
     <div>
       <h1>Resources</h1>
-      <button onClick = {() => navigate(-1)} className="Back-button">Back</button>
       <CsvTable filePath="ChampaignCountyResourceSheet.xlsx" filterKeywords={topic?.split('-')}/>
     </div>
   );
