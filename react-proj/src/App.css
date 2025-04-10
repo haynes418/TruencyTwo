@@ -197,6 +197,7 @@ body {
 .Back-button:hover {
   background-color: #0056b3;
   color: white;
+}
 
 @media (max-width: 768px) {
   .nav-bar {
@@ -220,4 +221,5 @@ body {
     font-size: 20px;
     text-align: center;
   }
+
 }
