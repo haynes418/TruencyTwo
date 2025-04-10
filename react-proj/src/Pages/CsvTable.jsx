@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import { Collapse, Table, Checkbox, Row, Col } from 'antd';
+import { Collapse, Table, Checkbox, Row, Col, Input } from 'antd';
 
 const { Panel } = Collapse;
+const { Search } = Input;
 
-const CsvTable = ({ filePath }) => {
+const CsvTable = ({ filePath, filterKeywords}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columns, setColumns] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const fetchFileData = async () => {
@@ -62,6 +65,7 @@ const CsvTable = ({ filePath }) => {
       complete: (result) => {
         const groupedData = groupDataByCategory(result.data);
         setData(groupedData);
+        setFilteredData(groupedData);
         setLoading(false); // Set loading to false after data is loaded
 
         // Initialize columns
@@ -79,7 +83,6 @@ const CsvTable = ({ filePath }) => {
         }));
 
         setColumns(allColumns);
-
         // Set default visibility for columns (all visible by default)
         const initialVisibility = allColumns.reduce((acc, col) => {
           acc[col.key] = true; // Initially all columns are visible
@@ -124,6 +127,25 @@ const CsvTable = ({ filePath }) => {
     return regex.test(url);
   };
 
+  const handleSearch = (value) => {
+    setSearchText(value.toLowerCase());
+    if (!value) {
+      setFilteredData(data);
+      return;
+    }
+
+    const filtered = data.map(group => {
+      const filteredRows = group.data.filter(row =>
+        Object.values(row).some(cell =>
+          cell && cell.toString().toLowerCase().includes(value.toLowerCase())
+        )
+      );
+      return { ...group, data: filteredRows };
+    }).filter(group => group.data.length > 0);
+
+    setFilteredData(filtered);
+  };
+
   // Toggle column visibility
   const handleColumnVisibilityChange = (columnKey) => {
     setColumnVisibility(prevState => ({
@@ -155,10 +177,26 @@ const CsvTable = ({ filePath }) => {
     return <div>No data available</div>;
   }
 
+  let filteredData = data;
+  if (filterKeywords) {
+    filteredData = data.filter(categoryGroup => {
+      return filterKeywords.some(keyword => categoryGroup.category?.toLowerCase().includes(keyword.toLowerCase()));
+    });
+  }
+
   return (
     <div>
+      <Search
+        placeholder="Search resources..."
+        onSearch={handleSearch}
+        onChange={(e) => handleSearch(e.target.value)}
+        value={searchText}
+        style={{ marginBottom: '16px', maxWidth: 400 }}
+        allowClear
+      />
+
       <Collapse accordion>
-        {data.map((categoryGroup, index) => {
+        {filteredData.map((categoryGroup, index) => {
           // Get only the columns that have data in "Description" or "Notes"
           const filteredColumns = getColumnsForCategory(categoryGroup.data);
 

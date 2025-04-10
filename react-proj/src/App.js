@@ -17,43 +17,43 @@ const decisionTree = {
             "Childcare": {
               question: "Do you need help finding daycare or babysitters?",
               choices: {
-                "Daycare": { result: "Here are resources for daycare services.", path: "/childcare-daycare" },
-                "Babysitters": { result: "Here are resources for babysitters.", path: "/childcare-babysitters" }
+                "Daycare": { result: "Here are resources for daycare services.", path: "/resources?topic=child" },
+                "Babysitters": { result: "Here are resources for babysitters.", path: "/resources?topic=child" }
               }
             },
             "Transportation": {
               question: "Do you need assistance with public transport or carpool options?",
               choices: {
-                "Public Transport": { result: "Here are public transport resources.", path: "/transportation-public" },
-                "Carpool": { result: "Here are carpool resources.", path: "/transportation-carpool" }
+                "Public Transport": { result: "Here are public transport resources.", path: "/resources?topic=transportation" },
+                "Carpool": { result: "Here are carpool resources.", path: "/resources?topic=transportation" }
               }
             },
             "Attendance Motivation": {
               question: "Do you need help with attendance goals or rewards?",
               choices: {
-                "Goals": { result: "Here are resources for attendance goals.", path: "/attendance-goals" },
-                "Rewards": { result: "Here are resources for attendance rewards.", path: "/attendance-rewards" }
+                "Goals": { result: "Here are resources for attendance goals.", path: "/resources?topic=attendance-goals" },
+                "Rewards": { result: "Here are resources for attendance rewards.", path: "/resources?topic=attendance-rewards" }
               }
             },
             "Food Insecurity": {
               question: "Do you need help with affording groceries or finding food shelters?",
               choices: {
-                "Groceries": { result: "Here are resources for groceries.", path: "/food-groceries" },
-                "Food Shelters": { result: "Here are resources for food shelters.", path: "/food-shelters" }
+                "Groceries": { result: "Here are resources for groceries.", path: "/resources?topic=food-groceries" },
+                "Food Shelters": { result: "Here are resources for food shelters.", path: "/resources?topic=food-shelters" }
               }
             },
             "Housing": {
               question: "Do you need help finding housing or paying rent?",
               choices: {
-                "Finding Housing": { result: "Here are resources for finding housing.", path: "/housing-find" },
-                "Paying Rent": { result: "Here are resources for rent assistance.", path: "/housing-rent" }
+                "Finding Housing": { result: "Here are resources for finding housing.", path: "/resources?topic=housing-find" },
+                "Paying Rent": { result: "Here are resources for rent assistance.", path: "/resources?topic=housing-rent" }
               }
             },
             "Mental Health": {
               question: "Do you need help with finding therapy or crisis hotlines?",
               choices: {
-                "Therapy": { result: "Here are resources for therapy.", path: "/mentalhealth-therapy" },
-                "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/crisis-hotlines" }
+                "Therapy": { result: "Here are resources for therapy.", path: "/resources?topic=mental-health" },
+                "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/resources?topic=crisis-hotlines" }
               }
             }
           }
@@ -71,7 +71,7 @@ const DecisionTreeComponent = ({ node }) => {
   const navigate = useNavigate();
 
   const handleChoice = (choice) => {
-    if (currentNode.choices[choice].path) {
+    if(currentNode.choices[choice].path){
       navigate(currentNode.choices[choice].path);
     } else {
       setCurrentNode(currentNode.choices[choice]);
@@ -80,6 +80,7 @@ const DecisionTreeComponent = ({ node }) => {
 
   return (
     <div className="screen">
+      <button onClick = {() => navigate(-1)} className="Back-button">Back</button>
       <h3>{currentNode.question || currentNode.result}</h3>
       {currentNode.choices ? (
         <div className="button-container">
@@ -138,7 +139,14 @@ const FAQPage = () => {
       <div className="faq-item">
         <h3 className="faq-question">6. Who can I contact if I need more assistance?</h3>
         <p className="faq-answer">
-          If you need further assistance or cannot find the support you're looking for, we recommend contacting Urbana City Schools.
+          If you need further assistance or cannot find the support you're looking for, we recommend contacting your child's school.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h3 className="faq-question">7. What is mediation?</h3>
+        <p className="faq-answer">
+        Truancy mediation is a process where a neutral mediator facilitates a discussion between a student, their parents, and school staff to address attendance issues and collaboratively develop solutions to improve school attendance.
         </p>
       </div>
     </div>
@@ -218,5 +226,6 @@ const App = () => {
     </Router>
   );
 };
+
 
 export default App;
