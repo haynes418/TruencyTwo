@@ -102,20 +102,30 @@ body {
   gap: 8px;
 }
 
+.button-container .Recall-button {
+  background-color: #800000;
+  color: white;
+  border: 2px solid black; 
+  padding: 10px;
+  cursor: pointer;
+}
+
 .button-container button{
   background-color: transparent;
   color: rgb(15, 15, 15);
   font-size: 14px;
   padding: 8px 16px;
   border-radius: 30px;
-  border: none;
+  border: 2px solid maroon; 
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   margin: 6px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .button-container button:hover {
   background-color: #0056b3;
+  border: 2px solid black; 
   color: white;
 }
 
@@ -256,4 +266,3 @@ body {
       text-align: center;
     }
   }
-
