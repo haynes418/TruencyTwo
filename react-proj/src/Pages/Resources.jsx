@@ -13,7 +13,6 @@ const Resource = () => {
   const topic = query.get('topic');
   return (
     <div>
-      <button onClick={() => navigate(-1)} className="Back-button Back-button--filled">Back</button>
       <h1>Resources</h1>
       <CsvTable filePath="ChampaignCountyResourceSheet.xlsx" filterKeywords={topic?.split('-')}/>
     </div>
