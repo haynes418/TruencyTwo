@@ -266,3 +266,157 @@ body {
       text-align: center;
     }
   }
+
+  /* Overall container styles */
+.welcome-container {
+  padding: 30px;
+  background-color: #f9f9f9;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.welcome-message {
+  font-size: 2.5rem;
+  color: #003366;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.intro-text {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Styling for the image container */
+.welcome-image-container {
+  margin: 30px 0;
+}
+
+.welcome-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Attendance section styling */
+.attendance-section {
+  margin-top: 50px;
+}
+
+.section-card {
+  background-color: #fff;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.attendance-title {
+  font-size: 1.8rem;
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.attendance-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Usage section styling */
+.usage-section {
+  margin-top: 50px;
+}
+
+.website-text {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.tutorial-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tutorial-item {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.tutorial-item::before {
+  content: "✔";
+  color: #00aaff;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+/* Overall container styles */
+.faq-container {
+  padding: 30px;
+  background-color: #f9f9f9;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.faq-title {
+  font-size: 2.5rem;
+  color: #003366;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.faq-item {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.faq-question {
+  font-size: 1.6rem;
+  color: #003366;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.faq-answer {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .faq-title {
+    font-size: 2rem;
+  }
+
+  .faq-question {
+    font-size: 1.4rem;
+  }
+
+  .faq-answer {
+    font-size: 1rem;
+  }
+}
+
