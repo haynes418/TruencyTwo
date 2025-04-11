@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Button, message, Spin } from 'antd'; // Ant Design components
 import * as XLSX from 'xlsx';  // Import xlsx library for reading Excel files
 import axios from 'axios'; // For making the API request
+import { HiCloudArrowUp } from "react-icons/hi2";
+
 
 const FileUpload = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -77,8 +79,10 @@ const FileUpload = () => {
           <Button
             type="primary"
             onClick={() => document.querySelector('input[type="file"]').click()}
-            style={styles.uploadButton}
+            className="upload-button"
           >
+            {/* <span role="img" aria-label='upload'>☁️</span> */}
+            <HiCloudArrowUp style={{ fontSize: '20px' }} />
             Upload Excel File
           </Button>
         </div>
