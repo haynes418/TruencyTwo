@@ -8,7 +8,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://mongo:27017/dataStorageApp', {
+mongoose.connect('mongodb://mongodb:27017/dataStorageApp', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
