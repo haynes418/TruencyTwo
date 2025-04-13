@@ -51,46 +51,46 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Data Storage App!');
 });
 
-// Route to store Excel file and save data to MongoDB
-app.post('/upload', upload.single('file'), (req, res) => {
-    // Check if a file was uploaded
-    if (!req.file) {
-        return res.status(400).send({ error: 'Please upload a file.' });
-    }
-
-    // Get the file path
-    const filePath = path.join(__dirname, 'uploads', req.file.filename);
-
-    // Read the uploaded Excel file
+// Route to store Excel file OR raw JSON data in MongoDB
+app.post('/upload', upload.single('file'), async (req, res) => {
     try {
-        const workbook = XLSX.readFile(filePath);
-        const sheetName = workbook.SheetNames[0]; // Read the first sheet
-        const sheet = workbook.Sheets[sheetName];
+        let jsonData;
 
-        // Convert the Excel sheet to JSON
-        const jsonData = XLSX.utils.sheet_to_json(sheet);
+        // Case 1: File upload
+        if (req.file) {
+            const filePath = path.join(__dirname, 'uploads', req.file.filename);
+            const workbook = XLSX.readFile(filePath);
+            const sheetName = workbook.SheetNames[0]; // Read the first sheet
+            const sheet = workbook.Sheets[sheetName];
 
-        // Store the parsed data in MongoDB
-        const newData = new DataModel({
+            jsonData = XLSX.utils.sheet_to_json(sheet);
+
+            // Clean up uploaded file
+            fs.unlinkSync(filePath);
+        }
+        // Case 2: Raw JSON data in request body
+        else if (req.body && Array.isArray(req.body.data)) {
+            jsonData = req.body.data;
+        }
+        else {
+            return res.status(400).send({ error: 'Please upload an Excel file or provide valid JSON data.' });
+        }
+
+        // Store the parsed or provided data in MongoDB
+        const newData = new DataModel({ data: jsonData });
+        await newData.save();
+
+        res.status(201).send({
+            message: 'Data stored successfully',
             data: jsonData
         });
 
-        newData.save()
-            .then(() => {
-                // Optionally, you can delete the uploaded file after processing
-                fs.unlinkSync(filePath);
-                res.status(201).send({
-                    message: 'File uploaded and data stored successfully',
-                    data: jsonData
-                });
-            })
-            .catch((error) => {
-                res.status(500).send({ error: 'Failed to store data in MongoDB' });
-            });
     } catch (error) {
-        res.status(500).send({ error: 'Failed to process Excel file' });
+        console.error(error);
+        res.status(500).send({ error: 'Failed to process data.' });
     }
 });
+
 
 // Route to retrieve stored data from MongoDB
 app.get('/data', (req, res) => {

@@ -41,7 +41,7 @@ const FileUpload = () => {
         const jsonPayload = JSON.stringify({ data: jsonData });
 
         // Send the JSON data to the backend API
-        const response = await axios.post('/api/upload', jsonPayload, {
+        const response = await axios.post('http://localhost:3000/upload', jsonPayload, {
           headers: {
             'Content-Type': 'application/json'
           }
