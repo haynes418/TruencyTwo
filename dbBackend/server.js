@@ -8,7 +8,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://mongodb:27017/testDatabase', {
+mongoose.connect('mongodb://localhost:27017/dataStorageApp', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -21,10 +21,14 @@ const dataSchema = new mongoose.Schema({
     uploadedAt: { type: Date, default: Date.now },
 });
 
-const DataModel = mongoose.model('Data', dataSchema);
+const DataModel = mongoose.model('resourceData', dataSchema);
 
 const app = express();
 const port = 3000;
+
+// ADD THIS
+var cors = require('cors');
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
