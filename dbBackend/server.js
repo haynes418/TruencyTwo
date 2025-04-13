@@ -8,7 +8,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/dataStorageApp', {
+mongoose.connect('mongodb://localhost:27017/testingAgain', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -45,10 +45,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Ensure the 'uploads' directory exists
-if (!fs.existsSync('uploads')) {
-    fs.mkdirSync('uploads');
-}
+// // Ensure the 'uploads' directory exists
+// if (!fs.existsSync('uploads')) {
+//     fs.mkdirSync('uploads');
+// }
 
 // Root route
 app.get('/', (req, res) => {
@@ -62,15 +62,15 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
         // Case 1: File upload
         if (req.file) {
-            const filePath = path.join(__dirname, 'uploads', req.file.filename);
-            const workbook = XLSX.readFile(filePath);
-            const sheetName = workbook.SheetNames[0]; // Read the first sheet
-            const sheet = workbook.Sheets[sheetName];
+            // const filePath = path.join(__dirname, 'uploads', req.file.filename);
+            // const workbook = XLSX.readFile(filePath);
+            // const sheetName = workbook.SheetNames[0]; // Read the first sheet
+            // const sheet = workbook.Sheets[sheetName];
 
-            jsonData = XLSX.utils.sheet_to_json(sheet);
+            // jsonData = XLSX.utils.sheet_to_json(sheet);
 
-            // Clean up uploaded file
-            fs.unlinkSync(filePath);
+            // // Clean up uploaded file
+            // fs.unlinkSync(filePath);
         }
         // Case 2: Raw JSON data in request body
         else if (req.body && Array.isArray(req.body.data)) {

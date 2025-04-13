@@ -1,14 +1,16 @@
-// FileUpload.jsx
 import React, { useState } from 'react';
-import { Button, message, Spin } from 'antd'; // Ant Design components
-import * as XLSX from 'xlsx';  // Import xlsx library for reading Excel files
-import axios from 'axios'; // For making the API request
-
+import { Button, message, Spin, Modal } from 'antd'; // Added Modal
+import * as XLSX from 'xlsx';
+import axios from 'axios';
 
 const FileUpload = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [modalInfo, setModalInfo] = useState({
+    visible: false,
+    title: '',
+    content: '',
+  });
 
-  // Function to handle file upload
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
 
@@ -23,43 +25,50 @@ const FileUpload = () => {
     }
 
     setIsLoading(true);
-    
+
     try {
       const reader = new FileReader();
-      
+
       reader.onload = async (event) => {
         const data = event.target.result;
         const workbook = XLSX.read(data, { type: 'binary' });
 
-        // Assuming the first sheet contains the data you need
         const sheetName = workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
-        
-        // Convert the sheet to JSON
         const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-        
-        // Prepare data for API
         const jsonPayload = JSON.stringify({ data: jsonData });
 
-        // Send the JSON data to the backend API
         const response = await axios.post('http://localhost:3000/upload', jsonPayload, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
 
-        // Handle response from the API
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 201) {
           message.success("File uploaded and processed successfully!");
+          setModalInfo({
+            visible: true,
+            title: 'Upload Successful',
+            content: 'Your Excel file has been successfully uploaded and processed.',
+          });
         } else {
           message.error("Failed to upload file.");
+          setModalInfo({
+            visible: true,
+            title: 'Upload Failed',
+            content: 'The server returned an error - Status:' + response.status,
+          });
         }
       };
 
-      // Read the file as binary string
       reader.readAsBinaryString(file);
     } catch (error) {
       message.error("An error occurred while processing the file.");
+      setModalInfo({
+        visible: true,
+        title: 'Error',
+        content: 'An unexpected error occurred. Please check your file and try again.',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -84,17 +93,27 @@ const FileUpload = () => {
           </Button>
         </div>
       </Spin>
+
+      <Modal
+        title={modalInfo.title}
+        visible={modalInfo.visible}
+        onOk={() => setModalInfo({ ...modalInfo, visible: false })}
+        onCancel={() => setModalInfo({ ...modalInfo, visible: false })}
+        okText="OK"
+        cancelText="Close"
+      >
+        <p>{modalInfo.content}</p>
+      </Modal>
     </div>
   );
 };
 
-// Styles for centering the content
 const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh', // Full screen height
+    height: '100vh',
     backgroundColor: '#f0f2f5',
   },
   content: {
