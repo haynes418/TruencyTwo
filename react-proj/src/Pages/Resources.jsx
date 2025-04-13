@@ -10,14 +10,14 @@ function useQuery() {
 
 async function fetchData() {
   try {
-    const response = await fetch('http://localhost:3000/data');
+    const response = await fetch('http://localhost:3000/health');
     if (!response.ok) {
       return `HTTP error! status: ${response.status}`;
     }
     
     return response;
   } catch (error) {
-    return 'Failed to fetch data:' + error;
+    return 'Failed to fetch data: ' + error;
     throw error;
   }
 }

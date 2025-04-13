@@ -107,6 +107,18 @@ app.get('/data', (req, res) => {
         });
 });
 
+app.get('/health', async (req, res) => {
+    const mongoState = mongoose.connection.readyState;
+    const isConnected = mongoState === 1; // 0: disconnected, 1: connected, 2: connecting, 3: disconnecting
+
+    res.status(200).send({
+        server: 'ok',
+        db: isConnected ? 'connected' : 'disconnected',
+        dbStatusCode: mongoState,
+    });
+});
+
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
