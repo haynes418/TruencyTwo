@@ -9,6 +9,7 @@ function useQuery() {
 
 async function fetchData() {
   try {
+    //    const response = await fetch('http://localhost:3000/health');
     const response = await fetch('http://10.96.84.170:3030/health');
     if (!response.ok) {
       return `HTTP error! status: ${response.status}`;

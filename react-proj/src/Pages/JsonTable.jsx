@@ -27,6 +27,7 @@ const JsonTable = ({ filterKeywords }) => {
 
   const handleOk = async () => {
     try {
+      //      const response = await fetch('http://localhost:3000/reviews', {
       const response = await fetch('http://10.96.84.170:3030/reviews', {
         method: 'POST',
         headers: {
@@ -64,6 +65,7 @@ const JsonTable = ({ filterKeywords }) => {
   useEffect(() => {
     const fetchFileData = async () => {
       try {
+        //        const response = await fetch('http://localhost:3000/data');
         const response = await fetch('http://10.96.84.170:3030/data');
         if (!response.ok) {
           throw new Error(`Error fetching data: ${response.statusText}`);
@@ -125,6 +127,7 @@ const JsonTable = ({ filterKeywords }) => {
                 e.preventDefault();
         
                 // Track click immediately
+                //                fetch('http://localhost:3000/click', {
                 fetch('http://10.96.84.170:3030/click', {
                   method: 'POST',
                   headers: {
