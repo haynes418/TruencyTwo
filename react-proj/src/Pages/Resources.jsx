@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import CsvTable from './CsvTable';
+import CsvTable from './JsonTable';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);

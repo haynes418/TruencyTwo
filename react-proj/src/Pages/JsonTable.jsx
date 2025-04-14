@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { Collapse, Table, Checkbox, Row, Col, Input } from 'antd';
 
 const { Panel } = Collapse;
 const { Search } = Input;
 
-const CsvTable = ({ filePath, filterKeywords}) => {
+const JsonTable = ({ filePath, filterKeywords }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,14 +26,23 @@ const CsvTable = ({ filePath, filterKeywords}) => {
         const fileType = fileBlob.type;
 
         if (fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+
+          const response = await fetch('http://localhost:3000/data');
+          if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.statusText}`);
+          }
+
+          const jsonData = await response.json();
+          const payloadData = jsonData.data[0].data
+          processJsonData(payloadData); // Process the data after fetching
+
           // Handle xlsx file
-          const xlsxData = await parseXlsx(fileBlob);
-          const csvData = xlsxData; // Now we have the data as CSV format
-          processCsvData(csvData);
-        } else if (fileType === 'text/csv' || filePath.endsWith('.csv')) {
-          // Handle csv file
-          const text = await response.text();
-          processCsvData(text);
+          // const xlsxData = await parseXlsx(fileBlob);
+          // processJsonData(xlsxData); // Process data as JSON after converting from XLSX
+        } else if (fileType === 'application/json' || filePath.endsWith('.json')) {
+          // Handle JSON file
+          const jsonData = await response.json();
+          processJsonData(jsonData);
         } else {
           throw new Error('Unsupported file type');
         }
@@ -48,51 +56,69 @@ const CsvTable = ({ filePath, filterKeywords}) => {
     fetchFileData();
   }, [filePath]);
 
-  // Parse the xlsx file and convert to CSV format
+  // Parse the xlsx file and convert it to JSON format
   const parseXlsx = async (fileBlob) => {
     const data = await fileBlob.arrayBuffer();
     const workbook = XLSX.read(data, { type: 'array' });
 
     // Assuming we are working with the first sheet
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const csv = XLSX.utils.sheet_to_csv(sheet); // Convert to CSV string
-    return csv;
+    const json = XLSX.utils.sheet_to_json(sheet); // Convert to JSON
+    return json;
   };
 
-  // Process the CSV data using PapaParse
-  const processCsvData = (csvData) => {
-    Papa.parse(csvData, {
-      complete: (result) => {
-        const groupedData = groupDataByCategory(result.data);
-        setData(groupedData);
-        setFilteredData(groupedData);
-        setLoading(false); // Set loading to false after data is loaded
-
-        // Initialize columns
-        const allColumns = Object.keys(result.data[0]).map((key) => ({
-          title: key,
-          dataIndex: key,
-          key: key,
-          render: (text) => {
-            // Render a clickable link for the Website column
-            if (key === 'Website' && isValidUrl(text)) {
-              return <a href={text} target="_blank" rel="noopener noreferrer">{text}</a>;
-            }
-            return text; // Render text for other columns
-          },
-        }));
-
-        setColumns(allColumns);
-        // Set default visibility for columns (all visible by default)
-        const initialVisibility = allColumns.reduce((acc, col) => {
-          acc[col.key] = true; // Initially all columns are visible
-          return acc;
-        }, {});
-        setColumnVisibility(initialVisibility);
-      },
-      header: true, // Assuming the first row is the header
+  // Process the JSON data
+  const processJsonData = (jsonData) => {
+    // Detect and convert array-of-arrays format
+    if (Array.isArray(jsonData) && Array.isArray(jsonData[0])) {
+      const [headers, ...rows] = jsonData;
+      jsonData = rows.map(row => {
+        const obj = {};
+        headers.forEach((header, i) => {
+          obj[header] = row[i] || '';
+        });
+        return obj;
+      });
+    }
+  
+    const groupedData = groupDataByCategory(jsonData);
+    setData(groupedData);
+    setFilteredData(groupedData);
+    setLoading(false);
+  
+    // Find first valid data row for columns
+    const firstValidRow = jsonData.find(row => {
+      const keys = Object.keys(row);
+      return keys.length > 1 && keys.slice(1).some(key => row[key] && row[key].trim() !== "");
     });
+  
+    if (!firstValidRow) {
+      setColumns([]);
+      return;
+    }
+  
+    const allColumns = Object.keys(firstValidRow).map((key) => ({
+      title: key,
+      dataIndex: key,
+      key: key,
+      render: (text) => {
+        if (key === 'Website' && isValidUrl(text)) {
+          return <a href={text} target="_blank" rel="noopener noreferrer">{text}</a>;
+        }
+        return text;
+      },
+    }));
+  
+    setColumns(allColumns);
+  
+    const initialVisibility = allColumns.reduce((acc, col) => {
+      acc[col.key] = true;
+      return acc;
+    }, {});
+    setColumnVisibility(initialVisibility);
   };
+  
+  
 
   // Group data by categories
   const groupDataByCategory = (rows) => {
@@ -177,7 +203,6 @@ const CsvTable = ({ filePath, filterKeywords}) => {
     return <div>No data available</div>;
   }
 
-
   let filteredData1 = data;
 
   if (filterKeywords) {
@@ -219,4 +244,4 @@ const CsvTable = ({ filePath, filterKeywords}) => {
   );
 };
 
-export default CsvTable;
+export default JsonTable;

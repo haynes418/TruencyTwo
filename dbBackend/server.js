@@ -8,7 +8,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/testingAgain', {
+mongoose.connect('mongodb://localhost:27017/testingAgainPt3', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -26,7 +26,6 @@ const DataModel = mongoose.model('resourceData', dataSchema);
 const app = express();
 const port = 3000;
 
-// ADD THIS
 var cors = require('cors');
 app.use(cors());
 
@@ -45,47 +44,30 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// // Ensure the 'uploads' directory exists
-// if (!fs.existsSync('uploads')) {
-//     fs.mkdirSync('uploads');
-// }
-
 // Root route
 app.get('/', (req, res) => {
     res.send('Welcome to the Data Storage App!');
 });
 
-// Route to store Excel file OR raw JSON data in MongoDB
 app.post('/upload', upload.single('file'), async (req, res) => {
     try {
         let jsonData;
 
-        // Case 1: File upload
-        if (req.file) {
-            // const filePath = path.join(__dirname, 'uploads', req.file.filename);
-            // const workbook = XLSX.readFile(filePath);
-            // const sheetName = workbook.SheetNames[0]; // Read the first sheet
-            // const sheet = workbook.Sheets[sheetName];
-
-            // jsonData = XLSX.utils.sheet_to_json(sheet);
-
-            // // Clean up uploaded file
-            // fs.unlinkSync(filePath);
-        }
-        // Case 2: Raw JSON data in request body
-        else if (req.body && Array.isArray(req.body.data)) {
+        if (req.body && Array.isArray(req.body.data)) {
             jsonData = req.body.data;
-        }
-        else {
+        } else {
             return res.status(400).send({ error: 'Please upload an Excel file or provide valid JSON data.' });
         }
 
-        // Store the parsed or provided data in MongoDB
-        const newData = new DataModel({ data: jsonData });
-        await newData.save();
+        // Replace existing data
+        await DataModel.findOneAndUpdate(
+            {}, // Filter: empty object = first document found
+            { data: jsonData }, // Replace data field
+            { upsert: true, new: true } // Create if not found
+        );
 
         res.status(201).send({
-            message: 'Data stored successfully',
+            message: 'Data replaced successfully',
             data: jsonData
         });
 
