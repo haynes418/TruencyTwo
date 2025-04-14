@@ -28,7 +28,7 @@ const JsonTable = ({ filterKeywords }) => {
   const handleOk = async () => {
     try {
       //      const response = await fetch('http://localhost:3000/reviews', {
-      const response = await fetch('http://10.96.84.170:3030/reviews', {
+      const response = await fetch('http://198.180.133.10:3030/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const JsonTable = ({ filterKeywords }) => {
     const fetchFileData = async () => {
       try {
         //        const response = await fetch('http://localhost:3000/data');
-        const response = await fetch('http://10.96.84.170:3030/data');
+        const response = await fetch('http://198.180.133.10:3030/data');
         if (!response.ok) {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
@@ -128,7 +128,7 @@ const JsonTable = ({ filterKeywords }) => {
         
                 // Track click immediately
                 //                fetch('http://localhost:3000/click', {
-                fetch('http://10.96.84.170:3030/click', {
+                fetch('http://198.180.133.10:3030/click', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
