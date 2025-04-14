@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 import ResourcePage from './Pages/Resources';
+import ResourceUsage from './Pages/ResourceUsage';
 import FAQPage from './Pages/Faq';
 import LoginModal from './Pages/LoginModal';
 import FileUpload from './Pages/FileUpload';
@@ -181,6 +182,7 @@ const App = () => {
                 <Link to="/resources" className="nav-link">Resources</Link>
                 <Link to="/chat" className="nav-link">Resource Guide</Link>
                 <Link to="/fileupload" className="nav-link">File Upload</Link>
+                <Link to="/resourceusage" className="nav-link">Resource Usage Stats</Link>
                 <button onClick={() => setIsAuthenticated(false)} className="nav-link">Logout</button>
               </>
             )}
@@ -253,6 +255,7 @@ const App = () => {
     <Route path="/faq" element={<FAQPage />} />
     <Route path="/resources" element={<ResourcePage />} />
     <Route path="/chat" element={<DecisionTreeComponent node={decisionTree} />} />
+    <Route path="/resourceusage" element={<ResourceUsage />} />
     <Route path="/fileupload" element={<FileUpload />} />
   </Routes>
 </main>
