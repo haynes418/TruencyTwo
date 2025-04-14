@@ -178,13 +178,14 @@ const CsvTable = ({ filePath, filterKeywords}) => {
   }
 
 
-  let filteredData1 = data;
-
-  if (filterKeywords) {
-    filteredData1 = data.filter(categoryGroup => {
+  let filteredData1 = filteredData;
+  
+  if (filterKeywords && filterKeywords.length > 0) {
+    filteredData1 = filteredData1.filter(categoryGroup => {
       return filterKeywords.some(keyword => categoryGroup.category?.toLowerCase().includes(keyword.toLowerCase()));
     });
   }
+  
 
   return (
     <div>
