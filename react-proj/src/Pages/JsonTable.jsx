@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import * as XLSX from 'xlsx';
-import { Collapse, Table, Checkbox, Row, Col, Input } from 'antd';
+import { Collapse, Table, Checkbox, Row, Col, Input, Modal, Rate } from 'antd';
 
 const { Panel } = Collapse;
 const { Search } = Input;
 
-const JsonTable = ({ filePath, filterKeywords }) => {
+const JsonTable = ({ filterKeywords }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,39 +12,66 @@ const JsonTable = ({ filePath, filterKeywords }) => {
   const [columns, setColumns] = useState([]);
   let [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [note, setNote] = useState('');
+  const [currentLink, setCurrentLink] = useState('');
+
+
+  //Modal for link feedback
+  const showModal = (link) => {
+    setCurrentLink(link);
+    setIsModalOpen(true);
+  };
+  
+
+  const handleOk = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          link: currentLink,
+          rating,
+          comment: note,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to submit review');
+      }
+  
+      console.log('Feedback submitted!');
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+      // Reset state
+      setIsModalOpen(false);
+      setRating(0);
+      setNote('');
+      setCurrentLink('');
+    }
+  };
+  
+  
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchFileData = async () => {
       try {
-        const response = await fetch(filePath);
+        const response = await fetch('http://localhost:3000/data');
         if (!response.ok) {
-          throw new Error(`Error fetching file: ${response.statusText}`);
+          throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        const fileBlob = await response.blob();
-        const fileType = fileBlob.type;
-
-        if (fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-
-          const response = await fetch('http://localhost:3000/data');
-          if (!response.ok) {
-            throw new Error(`Error fetching data: ${response.statusText}`);
-          }
-
-          const jsonData = await response.json();
-          const payloadData = jsonData.data[0].data
-          processJsonData(payloadData); // Process the data after fetching
-
-          // Handle xlsx file
-          // const xlsxData = await parseXlsx(fileBlob);
-          // processJsonData(xlsxData); // Process data as JSON after converting from XLSX
-        } else if (fileType === 'application/json' || filePath.endsWith('.json')) {
-          // Handle JSON file
-          const jsonData = await response.json();
-          processJsonData(jsonData);
-        } else {
-          throw new Error('Unsupported file type');
-        }
+        const jsonData = await response.json();
+        const payloadData = jsonData.data[0].data
+        processJsonData(payloadData); // Process the data after fetching
       } catch (error) {
         setError(error.message);
         setLoading(false);
@@ -54,18 +80,7 @@ const JsonTable = ({ filePath, filterKeywords }) => {
 
     // Start loading the data
     fetchFileData();
-  }, [filePath]);
-
-  // Parse the xlsx file and convert it to JSON format
-  const parseXlsx = async (fileBlob) => {
-    const data = await fileBlob.arrayBuffer();
-    const workbook = XLSX.read(data, { type: 'array' });
-
-    // Assuming we are working with the first sheet
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const json = XLSX.utils.sheet_to_json(sheet); // Convert to JSON
-    return json;
-  };
+  }, []);
 
   // Process the JSON data
   const processJsonData = (jsonData) => {
@@ -103,8 +118,35 @@ const JsonTable = ({ filePath, filterKeywords }) => {
       key: key,
       render: (text) => {
         if (key === 'Website' && isValidUrl(text)) {
-          return <a href={text} target="_blank" rel="noopener noreferrer">{text}</a>;
+          return (
+            <a
+              href={text}
+              onClick={(e) => {
+                e.preventDefault();
+        
+                // Track click immediately
+                fetch('http://localhost:3000/click', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ link: text }),
+                }).catch(err => {
+                  console.error('Click tracking failed:', err.message);
+                });
+        
+                // Open the link in a new tab
+                window.open(text, '_blank', 'noopener,noreferrer');
+        
+                // Show feedback modal
+                showModal(text);
+              }}
+            >
+              {text}
+            </a>
+          );
         }
+        
         return text;
       },
     }));
@@ -213,6 +255,30 @@ const JsonTable = ({ filePath, filterKeywords }) => {
 
   return (
     <div>
+      {}
+      <Modal 
+  title="How useful was this link?"
+  open={isModalOpen}
+  onOk={handleOk}
+  onCancel={handleCancel}
+>
+  {/* Show the current link */}
+  <p>
+    Link: <a href={currentLink} target="_blank" rel="noopener noreferrer">{currentLink}</a>
+  </p>
+
+  <Rate onChange={setRating} value={rating} />
+  <p>Your rating: {rating} star{rating === 1 ? '' : 's'}</p>
+
+  <Input.TextArea
+    rows={4}
+    placeholder="Leave a comment or suggestion..."
+    value={note}
+    onChange={(e) => setNote(e.target.value)}
+  />
+</Modal>
+
+
       <Search
         placeholder="Search resources..."
         onSearch={handleSearch}

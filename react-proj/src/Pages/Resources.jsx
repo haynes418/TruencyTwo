@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import CsvTable from './JsonTable';
+import JsonTable from './JsonTable';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -39,7 +39,7 @@ const Resource = () => {
   return (
     <div>
       <h1>Resources</h1>
-      <CsvTable filePath="ChampaignCountyResourceSheet.xlsx" filterKeywords={topic?.split('-')} />
+      <JsonTable filterKeywords={topic?.split('-')} />
       
       <div>
         <h3>Fetched Data:</h3>

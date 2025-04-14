@@ -100,6 +100,87 @@ app.get('/health', async (req, res) => {
     });
 });
 
+//Review Section
+const reviewSchema = new mongoose.Schema({
+    link: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+});
+
+const Review = mongoose.model('Review', reviewSchema);
+
+
+app.post('/reviews', async (req, res) => {
+    const { link, rating, comment } = req.body;
+
+    if (typeof link !== 'string' || typeof rating !== 'number' || typeof comment !== 'string') {
+        return res.status(400).send({ error: 'Invalid input: link (string), rating (number), and comment (string) are required.' });
+    }
+
+    try {
+        const newReview = new Review({ link, rating, comment });
+        await newReview.save();
+        res.status(201).send({ message: 'Review added successfully', review: newReview });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to add review' });
+    }
+});
+
+
+app.get('/reviews', async (req, res) => {
+    try {
+        // Get all reviews, sorting by createdAt in descending order
+        const reviews = await Review.find().sort({ createdAt: -1 });
+
+        res.status(200).send({ reviews });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to retrieve reviews' });
+    }
+});
+
+
+//Click Tracking
+const clickTrackingSchema = new mongoose.Schema({
+    link: { type: String, required: true, unique: true },
+    clicks: { type: Number, default: 0 }
+});
+
+const ClickTracking = mongoose.model('ClickTracking', clickTrackingSchema);
+
+
+app.post('/click', async (req, res) => {
+    const { link } = req.body;
+
+    if (typeof link !== 'string' || link.trim() === '') {
+        return res.status(400).send({ error: 'A valid link must be provided.' });
+    }
+
+    try {
+        const result = await ClickTracking.findOneAndUpdate(
+            { link },
+            { $inc: { clicks: 1 } },
+            { upsert: true, new: true }
+        );
+
+        res.status(200).send({ message: 'Click count updated', tracking: result });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to update click count' });
+    }
+});
+
+app.get('/clicks', async (req, res) => {
+    try {
+        const trackingData = await ClickTracking.find().sort({ clicks: -1 });
+        res.status(200).send({ tracking: trackingData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to retrieve click tracking data' });
+    }
+});
 
 // Start the server
 app.listen(port, () => {
