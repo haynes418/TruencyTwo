@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import { Collapse, Table, Checkbox, Row, Col, Input } from 'antd';
+import { Collapse, Table, Checkbox, Row, Col, Input, Modal, Rate } from 'antd';
 
 const { Panel } = Collapse;
 const { Search } = Input;
 
 const CsvTable = ({ filePath, filterKeywords}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [rating, setRating] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,6 +16,19 @@ const CsvTable = ({ filePath, filterKeywords}) => {
   const [columns, setColumns] = useState([]);
   let [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
+
+  //Modal for link feedback
+  const showModal = (e) => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchFileData = async () => {
@@ -76,7 +91,7 @@ const CsvTable = ({ filePath, filterKeywords}) => {
           render: (text) => {
             // Render a clickable link for the Website column
             if (key === 'Website' && isValidUrl(text)) {
-              return <a href={text} target="_blank" rel="noopener noreferrer">{text}</a>;
+              return <a href={text} onClick={showModal} target="_blank" rel="noopener noreferrer">{text}</a>;
             }
             return text; // Render text for other columns
           },
@@ -188,6 +203,17 @@ const CsvTable = ({ filePath, filterKeywords}) => {
 
   return (
     <div>
+        {}
+        <Modal 
+          title="How useful was this link?"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <Rate onChange={setRating} value={rating} />
+          <p>Your rating: {rating} stars</p>
+      </Modal>
+
       <Search
         placeholder="Search resources..."
         onSearch={handleSearch}
