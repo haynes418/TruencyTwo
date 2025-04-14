@@ -10,7 +10,7 @@ function useQuery() {
 async function fetchData() {
   try {
     //    const response = await fetch('http://localhost:3000/health');
-    const response = await fetch('http://192.5.19.133:3030/health');
+    const response = await fetch('http://truancy2backend-service:3030/health');
     if (!response.ok) {
       return `HTTP error! status: ${response.status}`;
     }
