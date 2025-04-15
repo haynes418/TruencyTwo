@@ -248,10 +248,10 @@ const JsonTable = ({ filterKeywords }) => {
     return <div>No data available</div>;
   }
 
-  let filteredData1 = data;
-
-  if (filterKeywords) {
-    filteredData1 = data.filter(categoryGroup => {
+  let filteredData1 = filteredData;
+  
+  if (filterKeywords && filterKeywords.length > 0) {
+    filteredData1 = filteredData1.filter(categoryGroup => {
       return filterKeywords.some(keyword => categoryGroup.category?.toLowerCase().includes(keyword.toLowerCase()));
     });
   }
@@ -280,8 +280,6 @@ const JsonTable = ({ filterKeywords }) => {
     onChange={(e) => setNote(e.target.value)}
   />
 </Modal>
-
-
       <Search
         placeholder="Search resources..."
         onSearch={handleSearch}

@@ -77,31 +77,31 @@ const FileUpload = () => {
   };
 
   return (
-<div className="welcome-container" style={styles.pageWrapper}>
-  <div style={styles.header}>
-    <h1 style={styles.headerText}>File Upload</h1>
+<div className="welcome-container" >
+  <div>
+    <h1 className="welcome-message">File Upload</h1>
   </div>
 
   <div style={styles.container}>
     <Spin spinning={isLoading} tip="Uploading...">
-      <div style={styles.card}>
+    <div style={styles.card}>
         <img
           src="https://cdn-icons-png.flaticon.com/512/732/732220.png"
           alt="Green Excel File Icon"
           style={styles.icon}
         />
-        <h2 style={styles.title}>Upload Resource Data</h2>
-        <p style={styles.subtitle}>Please upload an Excel (.xlsx) file containing resource information in the proper format.</p>
+        <h2 >Upload Resource Data</h2>
+        <p >Please upload an Excel (.xlsx) file containing resource information in the proper format.</p>
         <input
           type="file"
           accept=".xlsx, .xls"
           onChange={handleFileUpload}
-          style={styles.fileInput}
+          
         />
         <Button
           type="primary"
           onClick={() => document.querySelector('input[type="file"]').click()}
-          style={styles.uploadButton}
+          
         >
           Upload Excel File
         </Button>
@@ -147,6 +147,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     padding: '30px 20px',
+    color: '#003366',
   },
   card: {
     backgroundColor: 'white',
