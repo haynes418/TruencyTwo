@@ -18,7 +18,7 @@ const decisionTree = {
           question: "What is/may keep your child from school?",
           choices: {
             "Childcare": {
-              question: "Do you need help finding daycare or babysitters?",
+              question: "What type of care support are you looking for?",
               choices: {
                 "Daycare": { result: "Here are resources for daycare services.", path: "/resources?topic=child" },
                 "Adult": { result: "Here are resources for babysitters.", path: "/resources?topic=senior" }
@@ -32,7 +32,7 @@ const decisionTree = {
               }
             },
             "Services": {
-              question: "Do you need help with attendance goals or rewards?",
+              question: "Do you need help with school attendance, academic planning, or related legal matters?",
               choices: {
                 "Education": { result: "Here are resources for attendance goals.", path: "/resources?topic=community-education" },
                 "Planning": { result: "Here are resources for attendance rewards.", path: "/resources?topic=planning" },
@@ -47,14 +47,14 @@ const decisionTree = {
               }
             },
             "Housing": {
-              question: "Do you need help finding housing or paying rent?",
+              question: "Do you need help paying rent?",
               choices: {
                 // "Finding Housing": { result: "Here are resources for finding housing.", path: "/resources?topic=housing-find" },
                 "Paying Rent": { result: "Here are resources for rent assistance.", path: "/resources?topic=housing-rent-payment" }
               }
             },
             "Mental Health": {
-              question: "Do you need help with finding therapy or crisis hotlines?",
+              question: "Do you need help with mental health support, therapy options, or crisis hotlines?",
               choices: {
                 "Therapy": { result: "Here are resources for therapy.", path: "/resources?topic=mental-health" },
                 "Crisis Hotlines": { result: "Here are resources for crisis hotlines.", path: "/resources?topic=crisis-hotlines" },
