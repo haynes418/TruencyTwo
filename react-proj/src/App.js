@@ -9,7 +9,7 @@ import FileUpload from './Pages/FileUpload';
 
 
 const decisionTree = {
-  question: "This is going to take less than 5 minutes, all will remain anonymous. Do you wish to proceed?",
+  question: "This is an anonymous questionnaire to aid in finding resources. Do you wish to proceed?",
   choices: {
     "Yes": {
       question: "Are you worried about your child missing school?",
@@ -126,8 +126,8 @@ const DecisionTreeComponent = ({ node }) => {
   };
 
   return (
-    <div className="screen">
-      <h3 className="button-container">{currentNode.question || currentNode.result}</h3>
+    <div className="welcome-container">
+      <h3 className="welcome-message">{currentNode.question || currentNode.result}</h3>
       {currentNode.choices ? (
         <div className="button-container">
           {Object.keys(currentNode.choices).map((choice) => (

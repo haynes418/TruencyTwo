@@ -152,7 +152,7 @@ body {
 }
 
 .welcome-message {
-  font-size: 35px;
+  font-size: 30px;
   color: maroon;
   font-weight: bold;
   margin-bottom: 15px;
@@ -418,6 +418,14 @@ body {
 
   .faq-answer {
     font-size: 1rem;
+  }
+
+  .nav-link {
+    display: block;
+    width: 90%;
+    margin: 8px auto;
+    text-align: center;
+    font-size: 1.1rem;
   }
 }
 

@@ -8,7 +8,8 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://mongo:27017/dataStorageApp', {
+mongoose.connect('mongodb://localhost:27017/testingAgainPt3', {
+//mongoose.connect('mongodb://mongodb:27017/dataStore', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -21,10 +22,13 @@ const dataSchema = new mongoose.Schema({
     uploadedAt: { type: Date, default: Date.now },
 });
 
-const DataModel = mongoose.model('Data', dataSchema);
+const DataModel = mongoose.model('resourceData', dataSchema);
 
 const app = express();
 const port = 3000;
+
+var cors = require('cors');
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
@@ -41,56 +45,39 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Ensure the 'uploads' directory exists
-if (!fs.existsSync('uploads')) {
-    fs.mkdirSync('uploads');
-}
-
 // Root route
 app.get('/', (req, res) => {
     res.send('Welcome to the Data Storage App!');
 });
 
-// Route to store Excel file and save data to MongoDB
-app.post('/upload', upload.single('file'), (req, res) => {
-    // Check if a file was uploaded
-    if (!req.file) {
-        return res.status(400).send({ error: 'Please upload a file.' });
-    }
-
-    // Get the file path
-    const filePath = path.join(__dirname, 'uploads', req.file.filename);
-
-    // Read the uploaded Excel file
+app.post('/upload', upload.single('file'), async (req, res) => {
     try {
-        const workbook = XLSX.readFile(filePath);
-        const sheetName = workbook.SheetNames[0]; // Read the first sheet
-        const sheet = workbook.Sheets[sheetName];
+        let jsonData;
 
-        // Convert the Excel sheet to JSON
-        const jsonData = XLSX.utils.sheet_to_json(sheet);
+        if (req.body && Array.isArray(req.body.data)) {
+            jsonData = req.body.data;
+        } else {
+            return res.status(400).send({ error: 'Please upload an Excel file or provide valid JSON data.' });
+        }
 
-        // Store the parsed data in MongoDB
-        const newData = new DataModel({
+        // Replace existing data
+        await DataModel.findOneAndUpdate(
+            {}, // Filter: empty object = first document found
+            { data: jsonData }, // Replace data field
+            { upsert: true, new: true } // Create if not found
+        );
+
+        res.status(201).send({
+            message: 'Data replaced successfully',
             data: jsonData
         });
 
-        newData.save()
-            .then(() => {
-                // Optionally, you can delete the uploaded file after processing
-                fs.unlinkSync(filePath);
-                res.status(201).send({
-                    message: 'File uploaded and data stored successfully',
-                    data: jsonData
-                });
-            })
-            .catch((error) => {
-                res.status(500).send({ error: 'Failed to store data in MongoDB' });
-            });
     } catch (error) {
-        res.status(500).send({ error: 'Failed to process Excel file' });
+        console.error(error);
+        res.status(500).send({ error: 'Failed to process data.' });
     }
 });
+
 
 // Route to retrieve stored data from MongoDB
 app.get('/data', (req, res) => {
@@ -101,6 +88,99 @@ app.get('/data', (req, res) => {
         .catch((error) => {
             return res.status(500).send({ error: 'Failed to retrieve data from MongoDB' });
         });
+});
+
+app.get('/health', async (req, res) => {
+    const mongoState = mongoose.connection.readyState;
+    const isConnected = mongoState === 1; // 0: disconnected, 1: connected, 2: connecting, 3: disconnecting
+
+    res.status(200).send({
+        server: 'ok',
+        db: isConnected ? 'connected' : 'disconnected',
+        dbStatusCode: mongoState,
+    });
+});
+
+//Review Section
+const reviewSchema = new mongoose.Schema({
+    link: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+});
+
+const Review = mongoose.model('Review', reviewSchema);
+
+
+app.post('/reviews', async (req, res) => {
+    const { link, rating, comment } = req.body;
+
+    if (typeof link !== 'string' || typeof rating !== 'number' || typeof comment !== 'string') {
+        return res.status(400).send({ error: 'Invalid input: link (string), rating (number), and comment (string) are required.' });
+    }
+
+    try {
+        const newReview = new Review({ link, rating, comment });
+        await newReview.save();
+        res.status(201).send({ message: 'Review added successfully', review: newReview });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to add review' });
+    }
+});
+
+
+app.get('/reviews', async (req, res) => {
+    try {
+        // Get all reviews, sorting by createdAt in descending order
+        const reviews = await Review.find().sort({ createdAt: -1 });
+
+        res.status(200).send({ reviews });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to retrieve reviews' });
+    }
+});
+
+
+//Click Tracking
+const clickTrackingSchema = new mongoose.Schema({
+    link: { type: String, required: true, unique: true },
+    clicks: { type: Number, default: 0 }
+});
+
+const ClickTracking = mongoose.model('ClickTracking', clickTrackingSchema);
+
+
+app.post('/click', async (req, res) => {
+    const { link } = req.body;
+
+    if (typeof link !== 'string' || link.trim() === '') {
+        return res.status(400).send({ error: 'A valid link must be provided.' });
+    }
+
+    try {
+        const result = await ClickTracking.findOneAndUpdate(
+            { link },
+            { $inc: { clicks: 1 } },
+            { upsert: true, new: true }
+        );
+
+        res.status(200).send({ message: 'Click count updated', tracking: result });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to update click count' });
+    }
+});
+
+app.get('/clicks', async (req, res) => {
+    try {
+        const trackingData = await ClickTracking.find().sort({ clicks: -1 });
+        res.status(200).send({ tracking: trackingData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Failed to retrieve click tracking data' });
+    }
 });
 
 // Start the server
