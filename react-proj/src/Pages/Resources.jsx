@@ -9,8 +9,8 @@ function useQuery() {
 
 async function fetchData() {
   try {
-    //    const response = await fetch('http://localhost:3000/health');
-    const response = await fetch('http://truancy2backend-service:3030/health');
+    const response = await fetch('http://localhost:3000/health');
+    // const response = await fetch('http://truancy2backend-service:3030/health');
     if (!response.ok) {
       return `HTTP error! status: ${response.status}`;
     }
@@ -38,15 +38,15 @@ const Resource = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Resources</h1>
+    <div className="welcome-container">
+      <h1 className="welcome-message">Resources</h1>
       <JsonTable filterKeywords={topic?.split('-')} />
       
-      <div>
+      {/* <div>
         <h3>Fetched Data:</h3>
         <button onClick={loadData}>🔄 Refetch Data</button>
         <pre>{JSON.stringify(data, null, 2)}</pre>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -11,15 +11,15 @@ const ResourceUsage = () => {
 
   useEffect(() => {
     // Fetch reviews data
-    //    fetch('http://localhost:3000/reviews')
-    fetch('http://truancy2backend-service:3030/reviews')
+        fetch('http://localhost:3000/reviews')
+    //fetch('http://truancy2backend-service:3030/reviews')
       .then((response) => response.json())
       .then((json) => setReviewData(json))
       .catch((error) => console.error('Error fetching review data:', error));
 
     // Fetch clicks data
-    //    fetch('http://localhost:3000/clicks')
-    fetch('http://truancy2backend-service:3030/clicks')
+        fetch('http://localhost:3000/clicks')
+    //fetch('http://truancy2backend-service:3030/clicks')
       .then((response) => response.json())
       .then((json) => setClickData(json))
       .catch((error) => console.error('Error fetching click data:', error));
@@ -74,8 +74,8 @@ const ResourceUsage = () => {
   ];
 
   return (
-    <div>
-      <h1>Resource Usage</h1>
+    <div className="welcome-container">
+      <h1 className="welcome-message">Resource Usage</h1>
 
       {/* Reviews Section */}
       {reviewData && reviewData.reviews && (
@@ -97,7 +97,7 @@ const ResourceUsage = () => {
       )}
 
       {/* Click Data Section */}
-      <h2 style={{ marginTop: '2rem' }}>Link Clicks</h2>
+      <h2 className="welcome-message" style={{ marginTop: '2rem' }}>Link Clicks</h2>
       {clickData && clickData.tracking ? (
         <Collapse>
           <Panel header="All Click Tracking" key="clicks">

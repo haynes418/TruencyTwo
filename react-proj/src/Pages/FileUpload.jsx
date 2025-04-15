@@ -3,6 +3,8 @@ import { Button, message, Spin, Modal } from 'antd'; // Added Modal
 import * as XLSX from 'xlsx';
 import axios from 'axios';
 
+
+
 const FileUpload = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalInfo, setModalInfo] = useState({
@@ -75,57 +77,106 @@ const FileUpload = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <Spin spinning={isLoading} tip="Uploading...">
-        <div style={styles.content}>
-          <input
-            type="file"
-            accept=".xlsx, .xls"
-            onChange={handleFileUpload}
-            style={styles.fileInput}
-          />
-          <Button
-            type="primary"
-            onClick={() => document.querySelector('input[type="file"]').click()}
-            style={styles.uploadButton}
-          >
-            Upload Excel File
-          </Button>
-        </div>
-      </Spin>
+<div className="welcome-container" style={styles.pageWrapper}>
+  <div style={styles.header}>
+    <h1 style={styles.headerText}>File Upload</h1>
+  </div>
 
-      <Modal
-        title={modalInfo.title}
-        visible={modalInfo.visible}
-        onOk={() => setModalInfo({ ...modalInfo, visible: false })}
-        onCancel={() => setModalInfo({ ...modalInfo, visible: false })}
-        okText="OK"
-        cancelText="Close"
-      >
-        <p>{modalInfo.content}</p>
-      </Modal>
-    </div>
-  );
+  <div style={styles.container}>
+    <Spin spinning={isLoading} tip="Uploading...">
+      <div style={styles.card}>
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/732/732220.png"
+          alt="Green Excel File Icon"
+          style={styles.icon}
+        />
+        <h2 style={styles.title}>Upload Resource Data</h2>
+        <p style={styles.subtitle}>Please upload an Excel (.xlsx) file containing resource information in the proper format.</p>
+        <input
+          type="file"
+          accept=".xlsx, .xls"
+          onChange={handleFileUpload}
+          style={styles.fileInput}
+        />
+        <Button
+          type="primary"
+          onClick={() => document.querySelector('input[type="file"]').click()}
+          style={styles.uploadButton}
+        >
+          Upload Excel File
+        </Button>
+      </div>
+    </Spin>
+  </div>
+
+  <Modal
+    title={modalInfo.title}
+    visible={modalInfo.visible}
+    onOk={() => setModalInfo({ ...modalInfo, visible: false })}
+    onCancel={() => setModalInfo({ ...modalInfo, visible: false })}
+    okText="OK"
+    cancelText="Close"
+  >
+    <p>{modalInfo.content}</p>
+  </Modal>
+</div>
+
+  );  
 };
 
 const styles = {
+  pageWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    backgroundColor: '#f9fafc',
+  },
+  header: {
+    padding: '20px 0',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
+    textAlign: 'center',
+  },
+  headerText: {
+    margin: 0,
+    fontSize: '28px',
+  },
   container: {
+    flex: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
-    backgroundColor: '#f0f2f5',
+    padding: '30px 20px',
   },
-  content: {
+  card: {
+    backgroundColor: 'white',
+    padding: '40px 30px',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
+    maxWidth: '500px',
+    width: '100%',
+  },
+  icon: {
+    width: '80px',
+    height: '80px',
+    marginBottom: '20px',
+  },
+  title: {
+    fontSize: '24px',
+    marginBottom: '10px',
+    color: '#003366'
+  },
+  subtitle: {
+    fontSize: '16px',
+    marginBottom: '30px',
   },
   fileInput: {
     display: 'none',
   },
   uploadButton: {
-    marginTop: '20px',
     fontSize: '16px',
+    padding: '10px 24px',
   },
 };
-
 export default FileUpload;

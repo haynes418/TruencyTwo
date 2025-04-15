@@ -8,8 +8,8 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-//mongoose.connect('mongodb://localhost:27017/testingAgainPt3', {
-mongoose.connect('mongodb://mongodb:27017/dataStore', {
+mongoose.connect('mongodb://localhost:27017/testingAgainPt3', {
+//mongoose.connect('mongodb://mongodb:27017/dataStore', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

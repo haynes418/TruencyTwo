@@ -27,8 +27,8 @@ const JsonTable = ({ filterKeywords }) => {
 
   const handleOk = async () => {
     try {
-      //      const response = await fetch('http://localhost:3000/reviews', {
-      const response = await fetch('http://truancy2backend-service:3030/reviews', {
+      const response = await fetch('http://localhost:3000/reviews', {
+      // const response = await fetch('http://truancy2backend-service:3030/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,8 +65,8 @@ const JsonTable = ({ filterKeywords }) => {
   useEffect(() => {
     const fetchFileData = async () => {
       try {
-        //        const response = await fetch('http://localhost:3000/data');
-        const response = await fetch('http://truancy2backend-service:3030/data');
+        const response = await fetch('http://localhost:3000/data');
+        //const response = await fetch('http://truancy2backend-service:3030/data');
         if (!response.ok) {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
@@ -127,8 +127,8 @@ const JsonTable = ({ filterKeywords }) => {
                 e.preventDefault();
         
                 // Track click immediately
-                //                fetch('http://localhost:3000/click', {
-                fetch('http://truancy2backend-service:3030/click', {
+                                fetch('http://localhost:3000/click', {
+                //fetch('http://truancy2backend-service:3030/click', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -298,13 +298,15 @@ const JsonTable = ({ filterKeywords }) => {
 
           return (
             <Panel header={categoryGroup.category} key={index}>
-              <Table
-                columns={filteredColumns} // Filter columns to only show those with data
-                dataSource={categoryGroup.data}
-                rowKey={(record, rowIndex) => rowIndex}
-                pagination={false}
-                bordered
-              />
+              <div style={{ overflowX: 'auto' }}>
+                <Table
+                  columns={filteredColumns}
+                  dataSource={categoryGroup.data}
+                  rowKey={(record, rowIndex) => rowIndex}
+                  pagination={false}
+                  bordered
+                />
+              </div>
             </Panel>
           );
         })}
