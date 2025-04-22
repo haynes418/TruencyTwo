@@ -1,5 +1,8 @@
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
 .App-header {
@@ -25,8 +28,11 @@ body {
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .nav-link {
@@ -38,6 +44,9 @@ body {
   border: 2px solid white;
   border-radius: 5px;
   transition: 0.3s;
+  text-align: center;
+  white-space: nowrap;
+  margin: 5px;
 }
 
 .nav-link:hover {
@@ -45,8 +54,18 @@ body {
   color: maroon;
 }
 
+.hero-section {
+  text-align: center;
+  padding: 50px;
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
 .ant-collapse > .ant-collapse-item > .ant-collapse-header  {
-  background-color: #3498db;
+  background-color: maroon;
+  opacity: 0.8;
+  color: white;
   font-size: 16px;
 }
 
@@ -77,10 +96,38 @@ body {
   transition: all 0.50s ease-in-out;
 }
 
-.button-container {
+.button-container{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 8px;
+}
+
+.button-container .Recall-button {
+  background-color: #800000;
+  color: white;
+  border: 2px solid black; 
+  padding: 10px;
+  cursor: pointer;
+}
+
+.button-container button{
+  background-color: transparent;
+  color: rgb(15, 15, 15);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 2px solid maroon; 
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.button-container button:hover {
+  background-color: #0056b3;
+  border: 2px solid black; 
+  color: white;
 }
 
 .decision-button {
@@ -105,7 +152,7 @@ body {
 }
 
 .welcome-message {
-  font-size: 35px;
+  font-size: 30px;
   color: maroon;
   font-weight: bold;
   margin-bottom: 15px;
@@ -122,8 +169,7 @@ body {
 
 .attendance-section {
   text-align: center;
-  margin-top: 50px;
-  margin-bottom: 150px;
+  margin-top: 20px;
   padding: 15px;
   background-color: #f8f9fa;
   border-radius: 10px;
@@ -142,6 +188,11 @@ body {
   margin-top: 10px;
 }
 
+.website-text {
+  font-size: 24px;
+  color: maroon;
+  font-weight: bold;
+}
 
 .faq-container {
   text-align: center;
@@ -174,3 +225,259 @@ body {
   margin: 5px 0;
 }
 
+.Back-button {
+  display: inline-block;
+  background-color: transparent;
+  color: rgb(15, 15, 15);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Back-button:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+  @media (max-width: 768px) {
+    .nav-bar {
+      padding: 10px;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-link {
+      width: 90%;
+      max-width: 300px;
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .site-title {
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+
+  /* Overall container styles */
+.welcome-container {
+  padding: 30px;
+  background-color: #f9f9f9;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.welcome-message {
+  font-size: 2.5rem;
+  color: #003366;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.intro-text {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Styling for the image container */
+.welcome-image-container {
+  margin: 30px 0;
+}
+
+.welcome-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Attendance section styling */
+.attendance-section {
+  margin-top: 50px;
+}
+
+.section-card {
+  background-color: #fff;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.attendance-title {
+  font-size: 1.8rem;
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.attendance-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Usage section styling */
+.usage-section {
+  margin-top: 50px;
+}
+
+.website-text {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.tutorial-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tutorial-item {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.tutorial-item::before {
+  content: "✔";
+  color: #00aaff;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+/* Overall container styles */
+.faq-container {
+  padding: 30px;
+  background-color: #f9f9f9;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.faq-title {
+  font-size: 2.5rem;
+  color: #003366;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.faq-item {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.faq-question {
+  font-size: 1.6rem;
+  color: #003366;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.faq-answer {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .faq-title {
+    font-size: 2rem;
+  }
+
+  .faq-question {
+    font-size: 1.4rem;
+  }
+
+  .faq-answer {
+    font-size: 1rem;
+  }
+
+  .nav-link {
+    display: block;
+    width: 90%;
+    margin: 8px auto;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+}
+
+.attendance-facts {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.8;
+  text-align: left;
+}
+.attendance-facts li {
+  margin-bottom: 10px;
+}
+
+.attendance-image-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.attendance-image {
+  max-width: 50%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  width: 150px;
+  height: 150px;
+  font-size: 14px;
+  text-align: center;
+  border: 2px solid maroon;
+  border-radius: 10px;
+  background-color: white;
+  transition: 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.image-button:hover {
+  background-color: maroon;
+  color: white;
+}
+
+.button-icon {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 8px;
+}
